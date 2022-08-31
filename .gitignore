@@ -289,5 +289,5 @@ zsdoc/data
 # Zunit tests' output
 /tests/_output/*
 !/tests/_output/.gitkeep
-
+config.json
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,linux,vim,visualstudiocode,windows,zsh
