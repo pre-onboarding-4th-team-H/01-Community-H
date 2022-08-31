@@ -2,21 +2,21 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-// const db = require("./models");
+const db = require("./database/models");
 // const routes = require("./routes");
 
 const app = express();
 const env = process.env;
 const PORT = env.PORT || 8080;
 
-// db.sequelize
-//   .sync({ force: false })
-//   .then(() => {
-//     console.log("Synced database.");
-//   })
-//   .catch(err => {
-//     console.log("Failed to sync database: " + err.message);
-//   });
+db.sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("Synced database.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync database: " + err.message);
+  });
 
 app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
