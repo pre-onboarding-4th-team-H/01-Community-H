@@ -10,6 +10,16 @@ const addPost = async (req, res, next) => {
       throw new Error("값을 입력해주세요.");
     }
 
+    //제목 100자
+    if (title.length >= 100) {
+      throw new Error("제목 수를 100자 이하로 입력하세요.");
+    }
+
+    // 내용 1000자 제한
+    if (content.length >= 1000) {
+      throw new Error("게시글의 글자수를 1000자 이하로 입력하세요.");
+    }
+
     // 게시글 생성
     const post = await noticeRepos.createPost(title, content, UserId);
 
