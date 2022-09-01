@@ -32,4 +32,18 @@ const getPosts = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPosts };
+// 게시글 조회
+const getPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await noticeRepos.findPost(id);
+    if (!post) {
+      throw new Error("조회할 게시글이 없습니다.");
+    }
+    res.status(201).json(post);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = { addPost, getPosts, getPost };

@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { addPost, getPosts } = require("../services/notice");
+const { addPost, getPosts, getPost } = require("../services/notice");
 const router = Router();
 const adminRequired = require("../middlewares/adminRequired");
 
@@ -7,5 +7,6 @@ const adminRequired = require("../middlewares/adminRequired");
 
 router.post("/notice", adminRequired, addPost);
 router.get("/notice", getPosts);
+router.get("/notice/:id", getPost);
 
 module.exports = router;

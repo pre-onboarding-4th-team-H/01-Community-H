@@ -16,4 +16,9 @@ const findPosts = async () => {
   return posts;
 };
 
-module.exports = { createPost, findPosts };
+const findPost = async (id) => {
+  const post = await models.NoticeBoard.findOne({ where: { id } });
+  return post;
+};
+
+module.exports = { createPost, findPosts, findPost };
