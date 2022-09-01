@@ -2,6 +2,16 @@ const models = require("../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
+const checkDeletedPost = async (id) => {
+  const existingPost = await models.FreeBoard.findOne({
+    attributes: ["id"],
+    where: {
+      id,
+    },
+  });
+  return existingPost;
+};
+
 const createPost = async (userId, categoryId, title, content) => {
   await models.FreeBoard.create({
     userId,
@@ -11,10 +21,10 @@ const createPost = async (userId, categoryId, title, content) => {
   });
 };
 
-const updatePost = async (id, categoryId, title, content) => {
+const updatePost = async (id, CategoryId, title, content) => {
   const updatedPost = await models.FreeBoard.update(
     {
-      categoryId,
+      CategoryId,
       title,
       content,
     },
@@ -26,6 +36,7 @@ const updatePost = async (id, categoryId, title, content) => {
 };
 
 const deletePost = async (id) => {
+  console.log("delete");
   const deletedPost = await models.FreeBoard.destroy({
     where: { id },
   });
@@ -67,4 +78,5 @@ module.exports = {
   deletePost,
   getPostAll,
   getPostDetail,
+  checkDeletedPost,
 };
