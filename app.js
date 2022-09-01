@@ -1,16 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const db = require("./database/models");
-// const routes = require("./routes");
+
+const routes = require("./routes");
 
 const app = express();
 const env = process.env;
-const PORT = env.PORT || 8080;
+const PORT = env.PORT || 10000;
 
 db.sequelize
-  .sync({ force: false })
+  .sync({ alter: true })
   .then(() => {
     console.log("Synced database.");
   })
@@ -21,6 +23,8 @@ db.sequelize
 app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("dev"));
+app.use(express.json());
+app.use(routes);
 
 app.get("/", (req, res) => {
   res.json({ Message: "Welcome to 01-Community-H!" });

@@ -1,9 +1,13 @@
 const Sequelize = require("sequelize");
 
-module.exports = class OperateBoard extends Sequelize.Model {
+module.exports = class FreeBoard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        UserId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
@@ -13,6 +17,16 @@ module.exports = class OperateBoard extends Sequelize.Model {
           type: Sequelize.STRING(1000),
           allowNull: false,
           unique: false,
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.fn("NOW"),
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.fn("NOW"),
         },
       },
       {
@@ -29,7 +43,7 @@ module.exports = class OperateBoard extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.OperateBoard.belongsTo(db.User);
-    db.OperateBoard.belongsTo(db.Category);
+    db.FreeBoard.belongsTo(db.User, { foreignKey: "UserId" });
+    db.FreeBoard.belongsTo(db.Category);
   }
 };

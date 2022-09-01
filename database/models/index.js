@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config")[env];
-
 const Category = require("./category");
 const FreeBoard = require("./freeBoard");
 const NoticeBoard = require("./noticeBoard");
