@@ -1,6 +1,7 @@
 const noticeRepos = require("../repos/notice");
 
-const notice = async (req, res) => {
+// 게시글 생성
+const addPost = async (req, res) => {
   try {
     const { title, content, UserId } = req.body;
 
@@ -18,4 +19,17 @@ const notice = async (req, res) => {
   }
 };
 
-module.exports = { notice };
+// 게시글 전체 조회
+const getPosts = async (req, res) => {
+  try {
+    const posts = await noticeRepos.findPosts();
+    if (posts.length === 0) {
+      throw new Error("조회할 게시글이 없습니다.");
+    }
+    res.status(201).json(posts);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = { addPost, getPosts };
