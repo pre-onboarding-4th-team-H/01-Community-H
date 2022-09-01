@@ -1,6 +1,4 @@
 const models = require("../database/models");
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
 
 // 게시글 생성
 const createPost = async (title, content, UserId) => {
