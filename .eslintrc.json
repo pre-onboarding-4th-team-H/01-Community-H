@@ -2,7 +2,7 @@
   "plugins": ["prettier"],
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 7,
+    "ecmaVersion": 8,
     "sourceType": "script",
     "ecmaFeatures": {
       "jsx": false
@@ -23,5 +23,6 @@
       "semi": true
     }
   ]
-  }
+  },
+  "parser": "@babel/eslint-parser"
 }
