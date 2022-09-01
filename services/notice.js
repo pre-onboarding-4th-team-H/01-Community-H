@@ -3,10 +3,11 @@ const noticeRepos = require("../repos/notice");
 // 게시글 생성
 const addPost = async (req, res, next) => {
   try {
-    const { title, content, UserId } = req.body;
+    const user = req.user;
+    const { title, content } = req.body;
 
     // 빈 값을 받은 경우
-    if (!(title && content && UserId)) {
+    if (!(title && content)) {
       throw new Error("값을 입력해주세요.");
     }
 
@@ -21,7 +22,7 @@ const addPost = async (req, res, next) => {
     }
 
     // 게시글 생성
-    const post = await noticeRepos.createPost(title, content, UserId);
+    const post = await noticeRepos.createPost(title, content, user);
 
     res.status(201).json(post);
   } catch (err) {
@@ -85,8 +86,8 @@ const setPost = async (req, res, next) => {
       throw new Error("게시글이 존재하지 않습니다.");
     }
 
-    // 회원 비밀번호(임시로 adminRequired에서 req.pass에 넣음)와 일치하는지 확인
-    const userPassword = req.pass;
+    // 현재 회원 비밀번호와 일치하는지 확인
+    const userPassword = req.user.password;
 
     // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
     // const isPasswordCorrect = await bcryt.compare(password, userPassword);
@@ -118,8 +119,9 @@ const deletePost = async (req, res, next) => {
     if (!isPost) {
       throw new Error("게시글이 존재하지 않습니다.");
     }
-    // 회원 비밀번호(임시로 adminRequired에서 req.pass에 넣음)와 일치하는지 확인
-    const userPassword = req.pass;
+
+    // 현재 회원 비밀번호와 일치하는지 확인
+    const userPassword = req.user.password;
 
     // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
     // const isPasswordCorrect = await bcryt.compare(password, userPassword);

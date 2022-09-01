@@ -1,11 +1,11 @@
 const models = require("../database/models");
 
 // 게시글 생성
-const createPost = async (title, content, UserId) => {
+const createPost = async (title, content, user) => {
   const post = await models.NoticeBoard.create({
     title,
     content,
-    UserId,
+    UserId: user.id,
   });
   return post;
 };
