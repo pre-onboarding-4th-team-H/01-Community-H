@@ -1,7 +1,7 @@
 const noticeRepos = require("../repos/notice");
 
 // 게시글 생성
-const addPost = async (req, res) => {
+const addPost = async (req, res, next) => {
   try {
     const { title, content, UserId } = req.body;
 
@@ -15,12 +15,12 @@ const addPost = async (req, res) => {
 
     res.status(201).json(post);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
 // 게시글 전체 조회
-const getPosts = async (req, res) => {
+const getPosts = async (req, res, next) => {
   try {
     const posts = await noticeRepos.findPosts();
 
@@ -31,12 +31,12 @@ const getPosts = async (req, res) => {
 
     res.status(201).json(posts);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
 // 게시글 조회
-const getPost = async (req, res) => {
+const getPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -49,12 +49,12 @@ const getPost = async (req, res) => {
 
     res.status(201).json(post);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
 // 게시글 수정
-const setPost = async (req, res) => {
+const setPost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, content, password } = req.body;
@@ -93,12 +93,12 @@ const setPost = async (req, res) => {
 
     res.status(201).json({ message: `${id} 게시글이 수정되었습니다.` });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
 // 게시글 삭제
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { password } = req.body;
@@ -125,7 +125,7 @@ const deletePost = async (req, res) => {
 
     res.status(201).json({ message: `${id} 게시글이 삭제되었습니다.` });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
