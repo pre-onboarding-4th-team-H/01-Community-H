@@ -33,4 +33,10 @@ const updatePost = async (id, title, content) => {
   return result;
 };
 
-module.exports = { createPost, findPosts, findPost, updatePost };
+// 게시글 삭제
+const destroyPost = async (id) => {
+  const result = await models.NoticeBoard.destroy({ where: { id } });
+  return result;
+};
+
+module.exports = { createPost, findPosts, findPost, updatePost, destroyPost };

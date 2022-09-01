@@ -91,10 +91,42 @@ const setPost = async (req, res) => {
       throw new Error("게시글이 수정되지 않았습니다.");
     }
 
-    res.status(201).json({ message: "게시글이 수정되었습니다." });
+    res.status(201).json({ message: `${id} 게시글이 수정되었습니다.` });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
-module.exports = { addPost, getPosts, getPost, setPost };
+// 게시글 삭제
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    // 해당 게시글이 있는지 확인
+    const isPost = await noticeRepos.findPost(id);
+    if (!isPost) {
+      throw new Error("게시글이 존재하지 않습니다.");
+    }
+    // 회원 비밀번호(임시로 adminRequired에서 req.pass에 넣음)와 일치하는지 확인
+    const userPassword = req.pass;
+
+    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
+    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
+    if (userPassword !== password) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
+
+    const result = await noticeRepos.destroyPost(id);
+
+    if (result[0] === 0) {
+      throw new Error("게시글이 삭제되지 않았습니다.");
+    }
+
+    res.status(201).json({ message: `${id} 게시글이 삭제되었습니다.` });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+module.exports = { addPost, getPosts, getPost, setPost, deletePost };
