@@ -16,6 +16,9 @@ const adminRequired = async (req, res, next) => {
       throw new Error();
     }
 
+    // 게시글 수정/ 삭제 시 passowrd를 사용하기 위해 req.pass에 할당
+    req.pass = user.password;
+
     next();
   } catch (e) {
     res.status(403).json({

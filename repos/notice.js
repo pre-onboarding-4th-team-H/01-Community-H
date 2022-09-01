@@ -2,6 +2,7 @@ const models = require("../database/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
+// 게시글 생성
 const createPost = async (title, content, UserId) => {
   const post = await models.NoticeBoard.create({
     title,
@@ -11,14 +12,25 @@ const createPost = async (title, content, UserId) => {
   return post;
 };
 
+// 전체 게시글 조회
 const findPosts = async () => {
   const posts = await models.NoticeBoard.findAll({});
   return posts;
 };
 
+// 게시글 조회
 const findPost = async (id) => {
   const post = await models.NoticeBoard.findOne({ where: { id } });
   return post;
 };
 
-module.exports = { createPost, findPosts, findPost };
+// 게시글 수정
+const updatePost = async (id, title, content) => {
+  const result = await models.NoticeBoard.update(
+    { title, content },
+    { where: { id } }
+  );
+  return result;
+};
+
+module.exports = { createPost, findPosts, findPost, updatePost };
