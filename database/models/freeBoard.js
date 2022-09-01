@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class OperateBoard extends Sequelize.Model {
+module.exports = class FreeBoard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -29,7 +29,7 @@ module.exports = class OperateBoard extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.OperateBoard.belongsTo(db.User);
-    db.OperateBoard.belongsTo(db.Category);
+    db.FreeBoard.belongsTo(db.User);
+    db.FreeBoard.belongsTo(db.Category);
   }
 };

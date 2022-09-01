@@ -23,5 +23,6 @@
       "semi": true
     }
   ]
-  }
+  },
+  "parser": "babel-eslint"
 }
