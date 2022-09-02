@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 const index = require("./index");
-const errorCodes = require("../codes/errorCodes");
+const errorCodes = require("../../codes/errorCodes");
 /**
  * <user create시 사용자 입력에 대한 검증 로직>
  *
