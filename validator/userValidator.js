@@ -26,8 +26,10 @@ function userJoinValidator() {
       .withMessage(errorCodes.required)
       .trim()
       .isEmail()
+      .bail()
       .withMessage(errorCodes.wrongEmailFormat)
-      .isLength({ max: 100 }),
+      .isLength({ max: 100 })
+      .withMessage(errorCodes.wrongFormat),
     body("password")
       .notEmpty()
       .bail()
