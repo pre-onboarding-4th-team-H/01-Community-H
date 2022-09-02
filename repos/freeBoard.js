@@ -1,5 +1,6 @@
 const models = require("../database/models");
 const Sequelize = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
 const Op = Sequelize.Op;
 
 const checkDeletedPost = async (id) => {
@@ -12,10 +13,11 @@ const checkDeletedPost = async (id) => {
   return existingPost;
 };
 
-const createPost = async (userId, categoryId, title, content) => {
+const createPost = async (UserId, CategoryId, title, content) => {
   await models.FreeBoard.create({
-    userId,
-    categoryId,
+    id: uuidv4(),
+    UserId,
+    CategoryId,
     title,
     content,
   });
@@ -35,7 +37,7 @@ const updatePost = async (id, CategoryId, title, content) => {
   return updatedPost;
 };
 
-const deletePost = async (id) => {
+const destroyPost = async (id) => {
   console.log("delete");
   const deletedPost = await models.FreeBoard.destroy({
     where: { id },
@@ -43,7 +45,7 @@ const deletePost = async (id) => {
   return deletedPost;
 };
 
-const getPostAll = async () => {
+const findPosts = async () => {
   const posts = await models.FreeBoard.findAll({
     include: [
       {
@@ -57,7 +59,7 @@ const getPostAll = async () => {
   return posts;
 };
 
-const getPostDetail = async (id) => {
+const findPost = async (id) => {
   const PostDetail = await models.FreeBoard.findOne({
     include: [
       {
@@ -75,8 +77,8 @@ const getPostDetail = async (id) => {
 module.exports = {
   createPost,
   updatePost,
-  deletePost,
-  getPostAll,
-  getPostDetail,
+  destroyPost,
+  findPost,
+  findPosts,
   checkDeletedPost,
 };

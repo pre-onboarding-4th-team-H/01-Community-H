@@ -4,6 +4,11 @@ module.exports = class FreeBoard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          allowNull: false,
+        },
         UserId: {
           type: Sequelize.INTEGER,
           allowNull: false,

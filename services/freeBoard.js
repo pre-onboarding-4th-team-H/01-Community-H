@@ -1,32 +1,32 @@
 const freeBoardRepos = require("../repos/freeBoard");
-const getPostAll = async (req, res, next) => {
+const getPosts = async (req, res, next) => {
   try {
-    const posts = await freeBoardRepos.getPostAll();
+    const posts = await freeBoardRepos.findPosts();
     return res.status(200).json(posts);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-const getPostDetail = async (req, res, next) => {
+const getPost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const PostDetail = await freeBoardRepos.getPostDetail(id);
+    const PostDetail = await freeBoardRepos.findPost(id);
     return res.status(200).json(PostDetail);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-const updatePost = async (req, res, next) => {
+const setPost = async (req, res, next) => {
   try {
     const { id, categoryId, title, content } = req.body;
     console.log(title, categoryId, 345345);
     const existingPost = await freeBoardRepos.checkDeletedPost(id);
     if (!existingPost) {
-      return res.status(400).json({ message: "이미 삭제된 공고입니다." });
+      throw new Error("이미 삭제된 공고입니다.");
     }
     const updatedPost = await freeBoardRepos.updatePost(
       id,
@@ -34,29 +34,45 @@ const updatePost = async (req, res, next) => {
       title,
       content
     );
-    console.log(updatedPost[0], 000);
     if (updatedPost[0] === 1) {
-      return res.status(400).json({ message: "내용이 변경되지 않았습니다." });
+      throw new Error("내용이 변경되지 않았습니다.");
     }
     return res.status(200).json({ message: "Posting is updated" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedPost = await freeBoardRepos.deletePost(id);
+    const deletedPost = await freeBoardRepos.destroyPost(id);
     if (!deletedPost) {
-      return res.status(400).json({ message: "이미 삭제된 공고입니다." });
+      throw new Error("이미 삭제된 공고입니다.");
     }
     return res.status(200).json({ message: "Posting is deleted" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-module.exports = { getPostAll, getPostDetail, updatePost, deletePost };
+const addPost = async (req, res, next) => {
+  try {
+    const { userId, categoryId, title, content } = req.body;
+    await freeBoardRepos.createPost(userId, categoryId, title, content);
+    return res.status(200).json({ message: "jobPosting is created" });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+module.exports = {
+  getPosts,
+  getPost,
+  setPost,
+  deletePost,
+  addPost,
+};
