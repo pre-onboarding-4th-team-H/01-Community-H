@@ -14,14 +14,33 @@ const createPost = async (title, content, user) => {
 
 // 전체 게시글 조회
 const findPosts = async () => {
-  const posts = await models.NoticeBoard.findAll({});
+  const posts = await models.FreeBoard.findAll({
+    include: [
+      {
+        model: models.User,
+        attributes: ["name"],
+        required: true,
+      },
+    ],
+    attributes: ["id", "title"],
+  });
   return posts;
 };
 
 // 게시글 조회
 const findPost = async (id) => {
-  const post = await models.NoticeBoard.findOne({ where: { id } });
-  return post;
+  const PostDetail = await models.FreeBoard.findOne({
+    include: [
+      {
+        model: models.User,
+        attributes: ["name"],
+        required: true,
+      },
+    ],
+    attributes: ["title", "content"],
+    where: { id },
+  });
+  return PostDetail;
 };
 
 // 게시글 수정

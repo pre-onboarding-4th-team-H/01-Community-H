@@ -2,7 +2,7 @@ const { body } = require("express-validator");
 const index = require("./index");
 const errorCodes = require("../../codes/errorCodes");
 /**
- * <board create시 데이터 입력에 대한 검증 로직>
+ * <board create, update, delete 입력 데이터(title, content)에 대한 검증 로직>
  *
  * title : required, maxLength : 100
  * content : required, maxLength : 1000
