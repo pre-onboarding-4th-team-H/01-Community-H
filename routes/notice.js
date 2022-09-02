@@ -1,10 +1,10 @@
 const { Router } = require("express");
 const { noticeService } = require("../services");
 const adminRequired = require("../middlewares/adminRequired");
-const { boardValidator } = require("../middleware/validator/boardValidator");
+const { boardValidator } = require("../middlewares/validator/boardValidator");
 const {
   passwordValidator,
-} = require("../middleware/validator/passwordValidator");
+} = require("../middlewares/validator/passwordValidator");
 
 const router = Router();
 
