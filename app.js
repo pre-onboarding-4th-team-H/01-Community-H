@@ -10,7 +10,7 @@ const { errorHandler } = require("./middlewares/errorHandler");
 
 const app = express();
 const env = process.env;
-const PORT = env.PORT || 10000;
+const PORT = env.PORT;
 
 db.sequelize
   .sync({ alter: true })
