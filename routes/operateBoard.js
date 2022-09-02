@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-
 const operateBoardService = require("../services/operateBoard.js");
+const { boardValidator } = require("../middlewares/validator/boardValidator");
 
-router.post("/", operateBoardService.addOperateBoard);
-router.get("/", operateBoardService.getAllOperateBoards);
-router.get("/:id", operateBoardService.getOneOperateBoard);
-router.put("/:id", operateBoardService.updateOperateBoard);
-router.delete("/:id", operateBoardService.deleteOperateBoard);
+router.post("/", boardValidator(), operateBoardService.addOperateBoard);
+router.get("/", operateBoardService.getOperateBoards);
+router.get("/:id", operateBoardService.getOperateBoard);
+router.patch("/:id", boardValidator(), operateBoardService.setOperateBoard);
+router.delete("/:id", boardValidator(),operateBoardService.deleteOperateBoard);
 
 module.exports = router;

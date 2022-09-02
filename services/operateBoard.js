@@ -1,46 +1,43 @@
+const { v4: uuidv4 } = require("uuid");
 const { OperateBoard } = require("../database/models");
 const db = require("../database/models");
 db.OperateBoard = OperateBoard;
 
-const addOperateBoard = async (req, res) => {
+const addOperateBoard = async (req, res, next) => {
   try {
     const { UserId, title, content } = req.body;
     const operateBoardInfo = {
-      UserId,
+      UserId: uuidv4(),
       title,
       content
     };
-    const existOperateBoard = await OperateBoard.findOne({ where: { title: title } });
-    if (existOperateBoard) {
-        return res.status(400).json({ Error: "Operate board already exists." });
-    }
     const operateBoard = await OperateBoard.create(operateBoardInfo);
     return res.status(200).json(operateBoard);
 	} catch (error) {
-    return res.status(400).json({ Error: error.message });
+    next(err);
   }
 };
 
-const getAllOperateBoards = async (req, res) => {
+const getOperateBoards = async (req, res, next) => {
   try {
     const operateBords = await OperateBoard.findAll();
     return res.status(200).json(operateBords);
   } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    next(err);
   }
 };
 
-const getOneOperateBoard = async (req, res) => {
+const getOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
     const operateBoard = await OperateBoard.findOne({ where: { id: operateBoardId } });
     return res.status(200).json(operateBoard);
   } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    next(err);
   }
 };
 
-const updateOperateBoard = async (req, res) => {
+const setOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
     const updated = await OperateBoard.update(req.body, { where: { id: operateBoardId } });
@@ -50,11 +47,11 @@ const updateOperateBoard = async (req, res) => {
     }
     throw new Error("Operate board not found.");
   } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    next(err);
   }
 };
 
-const deleteOperateBoard = async (req, res) => {
+const deleteOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
     const deleted = await OperateBoard.destroy({ where: { id: operateBoardId } });
@@ -63,14 +60,14 @@ const deleteOperateBoard = async (req, res) => {
     }
     throw new Error("Operate board not found.");
   } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    next(err);
   }
 };
 
 module.exports = {
   addOperateBoard,
-  getAllOperateBoards,
-  getOneOperateBoard,
-  updateOperateBoard,
+  getOperateBoards,
+  getOperateBoard,
+  setOperateBoard,
   deleteOperateBoard,
 };
