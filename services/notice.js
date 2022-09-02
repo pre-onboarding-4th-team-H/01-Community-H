@@ -1,4 +1,4 @@
-const noticeRepos = require("../repos/notice");
+const { noticeRepos } = require("../repos");
 
 // 게시글 생성
 const addPost = async (req, res, next) => {

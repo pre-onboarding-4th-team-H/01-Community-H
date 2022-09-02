@@ -23,7 +23,7 @@ app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(routes);
+app.use("/", routes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

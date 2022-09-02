@@ -1,20 +1,14 @@
 const { Router } = require("express");
-const {
-  addPost,
-  getPosts,
-  getPost,
-  setPost,
-  deletePost,
-} = require("../services/notice");
+const { noticeService } = require("../services");
 const adminRequired = require("../middlewares/adminRequired");
 
 const router = Router();
 
 // 관리자 CRUD / 유저 R
-router.post("/notice", adminRequired, addPost);
-router.get("/notice/:id", getPost);
-router.get("/notice", getPosts);
-router.patch("/notice/:id", adminRequired, setPost);
-router.delete("/notice/:id", adminRequired, deletePost);
+router.post("/", adminRequired, noticeService.addPost);
+router.get("/:id", noticeService.getPost);
+router.get("/", noticeService.getPosts);
+router.patch("/:id", adminRequired, noticeService.setPost);
+router.delete("/:id", adminRequired, noticeService.deletePost);
 
 module.exports = router;
