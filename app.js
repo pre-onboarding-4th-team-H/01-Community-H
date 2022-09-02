@@ -15,7 +15,7 @@ const env = process.env;
 const PORT = env.PORT || 8080;
 
 db.sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log("Synced database.");
   })
