@@ -4,6 +4,12 @@ module.exports = class NoticeBoard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true,
+          allowNull: false,
+        },
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
