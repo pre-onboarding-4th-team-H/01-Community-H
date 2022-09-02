@@ -4,7 +4,6 @@ const getPosts = async (req, res, next) => {
     const posts = await freeBoardRepos.findPosts();
     return res.status(200).json(posts);
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
@@ -15,7 +14,6 @@ const getPost = async (req, res, next) => {
     const PostDetail = await freeBoardRepos.findPost(id);
     return res.status(200).json(PostDetail);
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
@@ -38,7 +36,6 @@ const setPost = async (req, res, next) => {
     }
     return res.status(200).json({ message: "Posting is updated" });
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
@@ -52,7 +49,6 @@ const deletePost = async (req, res, next) => {
     }
     return res.status(200).json({ message: "Posting is deleted" });
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
@@ -63,7 +59,6 @@ const addPost = async (req, res, next) => {
     await freeBoardRepos.createPost(userId, categoryId, title, content);
     return res.status(200).json({ message: "jobPosting is created" });
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
