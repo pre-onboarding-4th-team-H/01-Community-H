@@ -23,7 +23,6 @@ const getPost = async (req, res, next) => {
 const setPost = async (req, res, next) => {
   try {
     const { id, categoryId, title, content } = req.body;
-    console.log(title, categoryId, 345345);
     const existingPost = await freeBoardRepos.checkDeletedPost(id);
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
