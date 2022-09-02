@@ -1,9 +1,18 @@
 const Sequelize = require("sequelize");
 
-module.exports = class OperateBoard extends Sequelize.Model {
+module.exports = class FreeBoard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          allowNull: false,
+        },
+        UserId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
@@ -29,7 +38,7 @@ module.exports = class OperateBoard extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.OperateBoard.belongsTo(db.User);
-    db.OperateBoard.belongsTo(db.Category);
+    db.FreeBoard.belongsTo(db.User, { foreignKey: "UserId" });
+    db.FreeBoard.belongsTo(db.Category);
   }
 };

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -13,10 +14,10 @@ dotenv.config();
 const app = express();
 
 const env = process.env;
-const PORT = env.PORT || 8080;
+const PORT = env.PORT;
 
 db.sequelize
-  .sync({ force: false })
+  .sync({ alter: true })
   .then(() => {
     console.log("Synced database.");
   })
