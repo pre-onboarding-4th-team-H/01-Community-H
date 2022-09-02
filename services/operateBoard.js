@@ -1,15 +1,13 @@
 const { operateRepos } = require("../repos");
-const { v4: uuidv4 } = require("uuid");
 
 // 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
   try {
-    const { id, title, content, UserId } = req.body;
+    const { title, content, UserId } = req.body;
     const operateBoardInfo = {
-      id: uuidv4(),
       title,
       content,
-			UserId,
+      UserId,
     };
     const post = await operateRepos.createPost(operateBoardInfo);
     return res.status(200).json(post);
@@ -64,7 +62,7 @@ const setOperateBoard = async (req, res, next) => {
 const deleteOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const deleted = await operateRepos.destroyPost({ where: { id: operateBoardId } });
+    const deleted = await operateRepos.destroyPost(operateBoardId);
     if (deleted) {
       return res.status(200).json({ Message: "Operate board deleted." });
     }

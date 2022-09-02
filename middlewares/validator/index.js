@@ -12,19 +12,11 @@ module.exports = (req, res, next) => {
   }
 
   const resultErrors = { errors: [] };
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
   errors.array().forEach((error) => {
     resultErrors.errors.push({
       field: error.param,
       message: error.msg,
     });
   });
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
   return res.status(400).json(resultErrors);
 };
