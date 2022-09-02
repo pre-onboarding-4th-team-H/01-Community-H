@@ -1,7 +1,7 @@
 {
   "plugins": ["prettier"],
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
-  "parser":"@babel/eslint-parser",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 7,
     "sourceType": "script",
@@ -18,7 +18,7 @@
   "rules": {
     "no-var": "warn",
     "prettier/prettier": [
-    "error",
+      "error",
       {
         "endOfLine": "auto",
         "singleQuote": false,
