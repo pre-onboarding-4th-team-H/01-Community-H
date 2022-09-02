@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 const index = require("./index");
-const errorCodes = require("../codes/errorCodes");
+const errorCodes = require("../../codes/errorCodes");
 /**
  * <board update, delete 시 password 검증 로직>
  *
