@@ -6,6 +6,7 @@ const db = require("./database/models");
 const dotenv = require("dotenv");
 
 const routes = require("./routes");
+const errorHandler = require("./middlewares/errorHandler");
 
 dotenv.config();
 
@@ -28,8 +29,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("dev"));
-
-app.use("/", routes);
+app.use(routes);
+app.use(errorHandler);
 
 // app.get("/", (req, res) => {
 //   res.json({ Message: "Welcome to 01-Community-H!" });
