@@ -26,10 +26,6 @@ app.use(express.json());
 app.use("/", routes);
 app.use(errorHandler);
 
-app.get("/", (req, res) => {
-  res.json({ Message: "Welcome to 01-Community-H!" });
-});
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

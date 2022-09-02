@@ -2,13 +2,8 @@ const models = require("../database/models");
 const { v4: uuidv4 } = require("uuid");
 
 // 게시글 생성
-const createPost = async (title, content, user) => {
-  const post = await models.OperateBoard.create({
-    id: uuidv4(),
-    title,
-    content,
-    UserId: user.id,
-  });
+const createPost = async (data) => {
+  const post = await models.OperateBoard.create(data);
   return post;
 };
 

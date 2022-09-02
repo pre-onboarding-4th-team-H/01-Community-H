@@ -1,63 +1,75 @@
 const { operateRepos } = require("../repos");
+const { v4: uuidv4 } = require("uuid");
 
+// 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
   try {
-    const { UserId, title, content } = req.body;
+    const { id, title, content } = req.body;
     const operateBoardInfo = {
-      UserId: uuidv4(),
+      id: uuidv4(),
       title,
-      content
+      content,
     };
-    const operateBoard = await operateRepos.create(operateBoardInfo);
-    return res.status(200).json(operateBoard);
-	} catch (error) {
-    next(err);
+    const post = await operateRepos.createPost(operateBoardInfo);
+    return res.status(200).json(post);
+  } catch (error) {
+    next(error);
   }
 };
 
+// 운영게시판 전체 조회
 const getOperateBoards = async (req, res, next) => {
   try {
-    const operateBords = await operateRepos.findAll();
-    return res.status(200).json(operateBords);
+    const posts = await operateRepos.findPosts();
+    return res.status(200).json(posts);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
+// 운영게시판 조회
 const getOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const operateBoard = await operateRepos.findOne({ where: { id: operateBoardId } });
-    return res.status(200).json(operateBoard);
+    const post = await operateRepos.findPost(operateBoardId);
+    return res.status(200).json(post);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
+// 게시글 수정
 const setOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const updated = await operateRepos.update(req.body, { where: { id: operateBoardId } });
+    const { title, content } = req.body;
+    const operateBoardInfo = {
+      operateBoardId,
+      title,
+      content,
+    };
+    const updated = await operateRepos.updatePost(operateBoardInfo);
     if (updated) {
-      const updatedJopOpening = await operateRepos.findOne({ where: { id: operateBoardId } });
+      const updatedJopOpening = await operateRepos.updatePost(operateBoardInfo);
       return res.status(200).json(updatedJopOpening);
     }
     throw new Error("Operate board not found.");
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
+// 게시글 삭제
 const deleteOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const deleted = await operateRepos.destroy({ where: { id: operateBoardId } });
+    const deleted = await operateRepos.destroyPost({ where: { id: operateBoardId } });
     if (deleted) {
       return res.status(200).json({ Message: "Operate board deleted." });
     }
     throw new Error("Operate board not found.");
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
