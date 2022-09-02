@@ -19,11 +19,11 @@
     "no-var": "warn",
     "prettier/prettier": [
     "error",
-      {
-        "endOfLine": "auto",
-        "singleQuote": false,
-        "semi": true
-      }
-    ]
+    {
+      "endOfLine": "auto",
+      "singleQuote": false,
+      "semi": true
+    }
+  ]
   }
 }

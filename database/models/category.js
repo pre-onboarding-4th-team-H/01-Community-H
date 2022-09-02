@@ -18,11 +18,10 @@ module.exports = class Category extends Sequelize.Model {
       },
       {
         sequelize,
-        timestamps: true,
         underscored: false,
+        timestamps: true,
         modelName: "Category",
         tableName: "categories",
-        paranoid: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }

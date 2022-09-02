@@ -1,5 +1,5 @@
+const userService = require("./user");
+const noticeService = require("./notice");
 const operateBoardService = require("./operateBoard");
 
-module.exports = {
-  operateBoardService,
-};
+module.exports = { userService, noticeService, operateBoardService };
