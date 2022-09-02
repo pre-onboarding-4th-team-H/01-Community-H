@@ -1,3 +1,4 @@
 const noticeRepo = require("./notice");
+const userRepository = require("./user");
 
-module.exports = { noticeRepo };
+module.exports = { noticeRepo, userRepository };
