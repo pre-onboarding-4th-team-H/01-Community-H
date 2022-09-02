@@ -2,7 +2,7 @@ const User = require("../database/models/user");
 const errorCodes = require("../codes/errorCodes");
 // controller -> service를 거쳐 사용자에 대한 검증과 DB 접근을 위한 데이터 정제를 마친 후
 // DB에 user를 생성하기 위한 함수.
-const addUser = async (data) => {
+const createUser = async (data) => {
   try {
     return await User.create(data);
   } catch (err) {
@@ -16,4 +16,4 @@ const addUser = async (data) => {
   }
 };
 
-module.exports = { addUser };
+module.exports = { createUser };
