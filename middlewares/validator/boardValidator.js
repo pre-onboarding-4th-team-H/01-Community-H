@@ -1,25 +1,27 @@
 const { body } = require("express-validator");
 const index = require("./index");
 const errorCodes = require("../../codes/errorCodes");
-
+/**
+ * <board create, update, delete 입력 데이터(title, content)에 대한 검증 로직>
+ *
+ * title : required, maxLength : 100
+ * content : required, maxLength : 1000
+ */
 function boardValidator() {
   return [
-    body("UserId").trim().notEmpty().bail().withMessage(errorCodes.required),
     body("title")
-      .trim()
       .notEmpty()
       .bail()
       .withMessage(errorCodes.required)
+      .trim()
       .isLength({ max: 100 })
-      .bail()
       .withMessage(errorCodes.wrongFormat),
     body("content")
-      .trim()
       .notEmpty()
       .bail()
       .withMessage(errorCodes.required)
+      .trim()
       .isLength({ max: 1000 })
-      .bail()
       .withMessage(errorCodes.wrongFormat),
     index,
   ];

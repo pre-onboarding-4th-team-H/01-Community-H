@@ -1,9 +1,11 @@
 {
   "plugins": ["prettier"],
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 7,
     "sourceType": "script",
+    "requireConfigFile": false,
     "ecmaFeatures": {
       "jsx": false
     }
@@ -16,12 +18,12 @@
   "rules": {
     "no-var": "warn",
     "prettier/prettier": [
-    "error",
-    {
-      "endOfLine": "auto",
-      "singleQuote": false,
-      "semi": true
-    }
-  ]
+      "error",
+      {
+        "endOfLine": "auto",
+        "singleQuote": false,
+        "semi": true
+      }
+    ]
   }
 }

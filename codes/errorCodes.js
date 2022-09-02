@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// 자주 사용되는 Error Codes의 관리를 위한 파일
+>>>>>>> develop
 module.exports = {
   required: "필수 값입니다.",
   wrongFormat: "형식을 맞춰주세요.",
