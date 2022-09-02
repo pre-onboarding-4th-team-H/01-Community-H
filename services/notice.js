@@ -6,21 +6,6 @@ const addPost = async (req, res, next) => {
     const user = req.user;
     const { title, content } = req.body;
 
-    // 빈 값을 받은 경우
-    if (!(title && content)) {
-      throw new Error("값을 입력해주세요.");
-    }
-
-    //제목 100자
-    if (title.length >= 100) {
-      throw new Error("제목 수를 100자 이하로 입력하세요.");
-    }
-
-    // 내용 1000자 제한
-    if (content.length >= 1000) {
-      throw new Error("게시글의 글자수를 1000자 이하로 입력하세요.");
-    }
-
     // 게시글 생성
     const post = await noticeRepos.createPost(title, content, user);
 
@@ -69,16 +54,6 @@ const setPost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, content, password } = req.body;
-
-    // 제목, 내용 입력 확인
-    if (!(title && content)) {
-      throw new Error("제목과 내용을 입력하세요.");
-    }
-
-    // 비밀번호 입력 확인
-    if (!password) {
-      throw new Error("비밀번호를 입력하세요.");
-    }
 
     // 해당 게시글이 있는지 확인
     const isPost = await noticeRepos.findPost(id);

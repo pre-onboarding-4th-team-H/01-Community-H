@@ -1,14 +1,30 @@
 const { Router } = require("express");
 const { noticeService } = require("../services");
 const adminRequired = require("../middlewares/adminRequired");
+const { boardValidator } = require("../middleware/validator/boardValidator");
+const {
+  passwordValidator,
+} = require("../middleware/validator/passwordValidator");
 
 const router = Router();
 
 // 관리자 CRUD / 유저 R
-router.post("/", adminRequired, noticeService.addPost);
+router.post("/", boardValidator(), adminRequired, noticeService.addPost);
 router.get("/:id", noticeService.getPost);
 router.get("/", noticeService.getPosts);
-router.patch("/:id", adminRequired, noticeService.setPost);
-router.delete("/:id", adminRequired, noticeService.deletePost);
+router.patch(
+  "/:id",
+  boardValidator(),
+  passwordValidator(),
+  adminRequired,
+  noticeService.setPost
+);
+router.delete(
+  "/:id",
+  boardValidator(),
+  passwordValidator(),
+  adminRequired,
+  noticeService.deletePost
+);
 
 module.exports = router;
