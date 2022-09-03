@@ -3,11 +3,11 @@ const { noticeRepos } = require("../repos");
 // 게시글 생성
 const addPost = async (req, res, next) => {
   try {
-    const user = req.user;
+    const userId = req.user.id;
     const { title, content } = req.body;
 
     // 게시글 생성
-    const post = await noticeRepos.createPost(title, content, user);
+    const post = await noticeRepos.createPost(title, content, userId);
 
     res.status(201).json(post);
   } catch (err) {
@@ -56,8 +56,8 @@ const setPost = async (req, res, next) => {
     const { title, content, password } = req.body;
 
     // 해당 게시글이 있는지 확인
-    const isPost = await noticeRepos.findPost(id);
-    if (!isPost) {
+    let post = await noticeRepos.findPost(id);
+    if (!post) {
       throw new Error("게시글이 존재하지 않습니다.");
     }
 
@@ -77,7 +77,10 @@ const setPost = async (req, res, next) => {
       throw new Error("게시글이 수정되지 않았습니다.");
     }
 
-    res.status(201).json({ message: `${id} 게시글이 수정되었습니다.` });
+    // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
+    post = await noticeRepos.findPost(id);
+
+    res.status(201).json(post);
   } catch (err) {
     next(err);
   }
