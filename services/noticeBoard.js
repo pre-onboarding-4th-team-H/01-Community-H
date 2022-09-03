@@ -1,4 +1,5 @@
-const { noticeRepos } = require("../repos");
+const { boardRepo } = require("../repos");
+const model = require("../database/models/noticeBoard");
 
 // 게시글 생성
 const addPost = async (req, res, next) => {
@@ -7,7 +8,7 @@ const addPost = async (req, res, next) => {
     const { title, content } = req.body;
 
     // 게시글 생성
-    const post = await noticeRepos.createPost(title, content, userId);
+    const post = await boardRepo.createPost(title, content, userId, model);
 
     res.status(201).json(post);
   } catch (err) {
@@ -18,7 +19,7 @@ const addPost = async (req, res, next) => {
 // 게시글 전체 조회
 const getPosts = async (req, res, next) => {
   try {
-    const posts = await noticeRepos.findPosts();
+    const posts = await boardRepo.findPosts(model);
 
     // 게시글이 없는 경우
     if (posts.length === 0) {
@@ -36,7 +37,7 @@ const getPost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const post = await noticeRepos.findPost(id);
+    const post = await boardRepo.findPost(id, model);
 
     // 게시글이 없는 경우
     if (!post) {
@@ -56,7 +57,7 @@ const setPost = async (req, res, next) => {
     const { title, content, password } = req.body;
 
     // 해당 게시글이 있는지 확인
-    let post = await noticeRepos.findPost(id);
+    let post = await boardRepo.findPost(id, model);
     if (!post) {
       throw new Error("게시글이 존재하지 않습니다.");
     }
@@ -70,7 +71,7 @@ const setPost = async (req, res, next) => {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
-    const result = await noticeRepos.updatePost(id, title, content);
+    const result = await boardRepo.updatePost(id, title, content, model);
 
     // 수정되지 않은 경우
     if (result[0] === 0) {
@@ -78,7 +79,7 @@ const setPost = async (req, res, next) => {
     }
 
     // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
-    post = await noticeRepos.findPost(id);
+    post = await boardRepo.findPost(id, model);
 
     res.status(201).json(post);
   } catch (err) {
@@ -93,7 +94,7 @@ const deletePost = async (req, res, next) => {
     const { password } = req.body;
 
     // 해당 게시글이 있는지 확인
-    const isPost = await noticeRepos.findPost(id);
+    const isPost = await boardRepo.findPost(id, model);
     if (!isPost) {
       throw new Error("게시글이 존재하지 않습니다.");
     }
@@ -107,7 +108,7 @@ const deletePost = async (req, res, next) => {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
-    const result = await noticeRepos.destroyPost(id);
+    const result = await boardRepo.destroyPost(id, model);
 
     if (result[0] === 0) {
       throw new Error("게시글이 삭제되지 않았습니다.");

@@ -1,4 +1,5 @@
-const { operateRepos } = require("../repos");
+const { boardRepo } = require("../repos");
+const model = require("../database/models/operateBoard");
 
 // 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
@@ -11,7 +12,7 @@ const addOperateBoard = async (req, res, next) => {
     //   content,
     //   userId,
     // };
-    const post = await operateRepos.createPost(title, content, userId);
+    const post = await boardRepo.createPost(title, content, userId, model);
     return res.status(200).json(post);
   } catch (err) {
     next(err);
@@ -21,7 +22,7 @@ const addOperateBoard = async (req, res, next) => {
 // 운영게시판 전체 조회
 const getOperateBoards = async (req, res, next) => {
   try {
-    const posts = await operateRepos.findPosts();
+    const posts = await boardRepo.findPosts(model);
     return res.status(200).json(posts);
   } catch (err) {
     next(err);
@@ -32,7 +33,7 @@ const getOperateBoards = async (req, res, next) => {
 const getOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const post = await operateRepos.findPost(operateBoardId);
+    const post = await boardRepo.findPost(operateBoardId, model);
     return res.status(200).json(post);
   } catch (err) {
     next(err);
@@ -50,19 +51,21 @@ const setOperateBoard = async (req, res, next) => {
     //   content,
     // };
     // const updated = await operateRepos.updatePost(operateBoardInfo);
-    const updated = await operateRepos.updatePost(
+    const updated = await boardRepo.updatePost(
       operateBoardId,
       title,
-      content
+      content,
+      model
     );
     if (updated) {
       // const updatedJopOpening = await operateRepos.updatePost(operateBoardInfo);
       // updatePost가 객체를 풀어서 받기 때문에 이렇게 수정했습니다.
       // 그런데 이 조건문이 무엇을 뜻하는지 잘 모르겠습니다.
-      const updatedJopOpening = await operateRepos.updatePost(
+      const updatedJopOpening = await boardRepo.updatePost(
         operateBoardId,
         title,
-        content
+        content,
+        model
       );
       return res.status(200).json(updatedJopOpening);
     }
@@ -76,7 +79,7 @@ const setOperateBoard = async (req, res, next) => {
 const deleteOperateBoard = async (req, res, next) => {
   try {
     const operateBoardId = req.params.id;
-    const deleted = await operateRepos.destroyPost(operateBoardId);
+    const deleted = await boardRepo.destroyPost(operateBoardId, model);
     if (deleted) {
       return res.status(200).json({ Message: "Operate board deleted." });
     }
