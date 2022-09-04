@@ -13,9 +13,6 @@ dotenv.config();
 
 const app = express();
 
-const env = process.env;
-const PORT = env.PORT;
-
 db.sequelize
   .sync({ alter: true })
   .then(() => {
@@ -33,9 +30,5 @@ app.use(morgan("dev"));
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(routes);
 app.use(errorHandler);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
 
 module.exports = app;
