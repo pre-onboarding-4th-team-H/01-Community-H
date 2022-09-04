@@ -12,6 +12,7 @@ const routes = require("./routes");
 dotenv.config();
 
 const app = express();
+app.set("port", process.env.PORT);
 
 db.sequelize
   .sync({ alter: true })
