@@ -1,4 +1,15 @@
 const freeBoardRepos = require("../repos/freeBoard");
+
+const addPost = async (req, res, next) => {
+  try {
+    const { userId, categoryId, title, content } = req.body;
+    await freeBoardRepos.createPost(userId, categoryId, title, content);
+    return res.status(200).json({ message: "Posting is created" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getPosts = async (req, res, next) => {
   try {
     const posts = await freeBoardRepos.findPosts();
@@ -44,20 +55,11 @@ const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedPost = await freeBoardRepos.destroyPost(id);
-    if (!deletedPost) {
+    console.log(deletePost[0], 23423);
+    if (!deletedPost[0]) {
       throw new Error("이미 삭제된 공고입니다.");
     }
     return res.status(200).json({ message: "Posting is deleted" });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const addPost = async (req, res, next) => {
-  try {
-    const { userId, categoryId, title, content } = req.body;
-    await freeBoardRepos.createPost(userId, categoryId, title, content);
-    return res.status(200).json({ message: "Posting is created" });
   } catch (err) {
     next(err);
   }
