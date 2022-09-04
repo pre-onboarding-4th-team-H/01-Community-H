@@ -19,16 +19,10 @@ const createUser = async (data) => {
 
 const findUser = async (email) => {
   try {
-    const user = await this.userModel.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     return user;
   } catch (err) {
-    const e = new Error();
-    // 이미 존재하는 이메일을 위한 예외처리
-    if (err.parent.code == "ER_DUP_ENTRY") {
-      e.message = errorCodes.existEmail;
-      e.name = "email";
-      throw e;
-    }
+    throw new Error("다시 시도해주세요.");
   }
 };
 

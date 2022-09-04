@@ -37,7 +37,7 @@ const addUserToken = async (req, res, next) => {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const secretKey = process.env.JWT_SECRET_KEY;
 
     // 토큰에 user.id 담음
     const token = jwt.sign({ userId: user.id }, secretKey);
