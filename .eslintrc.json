@@ -18,12 +18,12 @@
   "rules": {
     "no-var": "warn",
     "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto",
-        "singleQuote": false,
-        "semi": true
-      }
-    ]
+    "error",
+    {
+      "endOfLine": "auto",
+      "singleQuote": false,
+      "semi": true
+    }
+  ]
   }
 }

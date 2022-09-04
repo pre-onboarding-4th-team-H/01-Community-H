@@ -6,11 +6,8 @@ module.exports = class FreeBoard extends Sequelize.Model {
       {
         id: {
           type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
-          allowNull: false,
-        },
-        UserId: {
-          type: Sequelize.UUID,
           allowNull: false,
         },
         title: {
@@ -38,7 +35,7 @@ module.exports = class FreeBoard extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.FreeBoard.belongsTo(db.User, { foreignKey: "UserId" });
+    db.FreeBoard.belongsTo(db.User);
     db.FreeBoard.belongsTo(db.Category);
   }
 };
