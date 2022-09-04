@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const { userRepository } = require("../repos/index");
 // 로그인 및 관리자 등급 확인 미들웨어
 const loginRequired = async (req, res, next) => {
   try {
@@ -13,10 +13,10 @@ const loginRequired = async (req, res, next) => {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const jwtDecoded = jwt.verify(token, secretKey);
 
-    // 라우터에서 쓸 수 있도록 userId를 req.userId에 할당
-    req.userId = jwtDecoded.userId;
-
-    next();
+    // 라우터에서 쓸 수 있도록 req.user에 user 저장
+    req.user = await userRepository.findOneWithId(jwtDecoded.userId);
+    console.log(req.user);
+    next;
   } catch (err) {
     next(err);
   }

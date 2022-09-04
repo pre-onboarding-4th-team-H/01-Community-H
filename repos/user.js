@@ -16,4 +16,12 @@ const createUser = async (data) => {
   }
 };
 
-module.exports = { createUser };
+const findOneWithId = async (id) => {
+  try {
+    return await User.findOne({ where: { id } });
+  } catch (err) {
+    throw new Error("다시 시도해 주세요");
+  }
+};
+
+module.exports = { createUser, findOneWithId };
