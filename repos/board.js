@@ -46,11 +46,11 @@ const findPost = async (id, model) => {
 // 게시글 확인
 const checkPost = async (id, model) => {
   const existingPost = await model.findOne({
-    attributes: ["id"],
     where: {
       id,
     },
   });
+
   return existingPost;
 };
 
