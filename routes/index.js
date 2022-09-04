@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express();
 
-const freeBoard = require("./freeBoard");
 const userRouter = require("./user");
+const freeRouter = require("./freeBoard");
+const noticeRouter = require("./noticeBoard");
 const operateBoardRouter = require("./operateBoard");
-const noticeRouter = require("./board");
 
-router.use(freeBoard);
+router.use("/free", freeRouter);
 router.use("/notice", noticeRouter);
 router.use("/operate", operateBoardRouter);
 router.use("/user", userRouter);

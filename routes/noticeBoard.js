@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { noticeService } = require("../services");
 const adminRequired = require("../middlewares/adminRequired");
+const loginRequired = require("../middlewares/loginRequired");
 const { boardValidator } = require("../middlewares/validator/boardValidator");
 const {
   passwordValidator,
@@ -9,21 +10,29 @@ const {
 const router = Router();
 
 // 관리자 CRUD / 유저 R
-router.post("/", boardValidator(), adminRequired, noticeService.addPost);
+router.post(
+  "/",
+  loginRequired,
+  adminRequired,
+  boardValidator(),
+  noticeService.addPost
+);
 router.get("/:id", noticeService.getPost);
 router.get("/", noticeService.getPosts);
 router.patch(
   "/:id",
+  loginRequired,
+  adminRequired,
   boardValidator(),
   passwordValidator(),
-  adminRequired,
   noticeService.setPost
 );
 router.delete(
   "/:id",
+  loginRequired,
+  adminRequired,
   boardValidator(),
   passwordValidator(),
-  adminRequired,
   noticeService.deletePost
 );
 

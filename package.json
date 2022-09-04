@@ -2,10 +2,10 @@
   "name": "01-community-h",
   "version": "1.0.0",
   "description": "community",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "npx cross-env NODE_ENV=test mocha __test__/*.test.js",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,12 +19,13 @@
   },
   "homepage": "https://github.com/pre-onboarding-4th-team-H/01-Community-H#readme",
   "dependencies": {
-    "@babel/eslint-parser": "^7.18.9",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4",
@@ -34,14 +35,13 @@
     "@babel/eslint-parser": "^7.18.9",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.0",
-    "swagger-autogen": "^2.21.5",
-    "swagger-jsdoc": "^6.2.5",
-    "swagger-ui-express": "^4.5.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
     "sequelize-cli": "^6.4.1",
+    "supertest": "^6.2.4",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0"
   }

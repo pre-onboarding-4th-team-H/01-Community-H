@@ -1,20 +1,15 @@
 const express = require("express");
-const { boardValidator } = require("../middlewares/validator/boardValidator");
-const { errorHandler } = require("../middlewares/errorHandler");
-const {
-  addPost,
-  getPost,
-  getPosts,
-  deletePost,
-  setPost,
-} = require("../services/freeBoard");
 const router = express.Router();
+const { freeBoardService } = require("../services");
+const loginRequired = require("../middlewares/loginRequired");
+const { boardValidator } = require("../middlewares/validator/boardValidator");
 
-router.get("/posts", getPosts);
-router.get("/post/:id", getPost);
-router.patch("/post", boardValidator(), setPost);
-router.delete("/post/:id", deletePost);
-router.post("/post", boardValidator(), addPost);
+router.get("/", freeBoardService.getPosts);
+router.get("/:id", freeBoardService.getPost);
+router.patch("/", boardValidator(), freeBoardService.setPost);
+router.delete("/:id", freeBoardService.deletePost);
+router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
+// router.post("/", boardValidator(), freeBoardService.addPost);
 
 /**
  * @swagger
