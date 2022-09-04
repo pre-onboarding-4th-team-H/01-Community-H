@@ -5,5 +5,6 @@ const { userService } = require("../services/index");
 
 // user create에 대한 api
 router.post("/join", userJoinValidator(), userService.addUser);
+router.post("/login", userService.addUserToken);
 
 module.exports = router;
