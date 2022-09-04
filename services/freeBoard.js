@@ -63,7 +63,7 @@ const deletePost = async (req, res, next) => {
 
 const addPost = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.userId;
     const { title, content } = req.body;
     // const { userId, categoryId, title, content } = req.body;
     await boardRepo.createPost(title, content, userId, model);

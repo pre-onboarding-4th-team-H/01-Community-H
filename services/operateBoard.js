@@ -4,7 +4,7 @@ const model = require("../database/models/operateBoard");
 // 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
   try {
-    const userId = req.user;
+    const userId = req.userId;
     const { title, content } = req.body;
     // const { title, content, UserId } = req.body;
     // const operateBoardInfo = {

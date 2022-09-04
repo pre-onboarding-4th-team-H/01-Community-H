@@ -4,7 +4,7 @@ const model = require("../database/models/noticeBoard");
 // 게시글 생성
 const addPost = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.userId;
     const { title, content } = req.body;
 
     // 게시글 생성
