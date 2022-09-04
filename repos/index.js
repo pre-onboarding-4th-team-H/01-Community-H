@@ -1,5 +1,4 @@
-const operateRepos = require("./board");
-const noticeRepo = require("./notice");
+const boardRepo = require("./board");
 const userRepository = require("./user");
 
-module.exports = { noticeRepo, userRepository, operateRepos };
+module.exports = { boardRepo, userRepository };

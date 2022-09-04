@@ -1,7 +1,9 @@
-const freeBoardRepos = require("../repos/freeBoard");
+const { boardRepo } = require("../repos");
+const model = require("../database/models/freeBoard");
+
 const getPosts = async (req, res, next) => {
   try {
-    const posts = await freeBoardRepos.findPosts();
+    const posts = await boardRepo.findPosts(model);
     return res.status(200).json(posts);
   } catch (err) {
     next(err);
@@ -11,7 +13,7 @@ const getPosts = async (req, res, next) => {
 const getPost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const PostDetail = await freeBoardRepos.findPost(id);
+    const PostDetail = await boardRepo.findPost(id, model);
     return res.status(200).json(PostDetail);
   } catch (err) {
     next(err);
@@ -20,20 +22,26 @@ const getPost = async (req, res, next) => {
 
 const setPost = async (req, res, next) => {
   try {
-    const { id, categoryId, title, content } = req.body;
-    const existingPost = await freeBoardRepos.checkDeletedPost(id);
+    const { id, title, content } = req.body;
+    // const { id, categoryId, title, content } = req.body;
+    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
+    const existingPost = await boardRepo.checkPost(id, model);
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-    const updatedPost = await freeBoardRepos.updatePost(
-      id,
-      categoryId,
-      title,
-      content
-    );
-    if (updatedPost[0] === 1) {
+    const updatedPost = await boardRepo.updatePost(id, title, content, model);
+    // const updatedPost = await freeBoardRepos.updatePost(
+    //   id,
+    //   categoryId,
+    //   title,
+    //   content
+    // );
+    if (updatedPost[0] === 0) {
       throw new Error("내용이 변경되지 않았습니다.");
     }
+    // if (updatedPost[0] === 1) {
+    //   throw new Error("내용이 변경되지 않았습니다.");
+    // }
     return res.status(200).json({ message: "Posting is updated" });
   } catch (err) {
     next(err);
@@ -43,7 +51,7 @@ const setPost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedPost = await freeBoardRepos.destroyPost(id);
+    const deletedPost = await boardRepo.destroyPost(id, model);
     if (!deletedPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
@@ -55,8 +63,11 @@ const deletePost = async (req, res, next) => {
 
 const addPost = async (req, res, next) => {
   try {
-    const { userId, categoryId, title, content } = req.body;
-    await freeBoardRepos.createPost(userId, categoryId, title, content);
+    const userId = req.userId;
+    const { title, content } = req.body;
+    // const { userId, categoryId, title, content } = req.body;
+    await boardRepo.createPost(title, content, userId, model);
+    // await freeBoardRepos.createPost(userId, categoryId, title, content);
     return res.status(200).json({ message: "jobPosting is created" });
   } catch (err) {
     next(err);
