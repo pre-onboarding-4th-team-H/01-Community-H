@@ -1,9 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const loginRequired = require("../middlewares/loginRequired");
 const operateBoardService = require("../services/operateBoard.js");
 const { boardValidator } = require("../middlewares/validator/boardValidator");
 
-router.post("/", boardValidator(), operateBoardService.addOperateBoard);
+router.post(
+  "/",
+  loginRequired,
+  boardValidator(),
+  operateBoardService.addOperateBoard
+);
+// router.post(
+//   "/",
+//   boardValidator(),
+//   operateBoardService.addOperateBoard
+// );
 router.get("/", operateBoardService.getOperateBoards);
 router.get("/:id", operateBoardService.getOperateBoard);
 router.patch("/:id", boardValidator(), operateBoardService.setOperateBoard);
