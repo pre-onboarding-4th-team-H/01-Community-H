@@ -34,6 +34,7 @@
     "@babel/eslint-parser": "^7.18.9",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.0",
+    "swagger-autogen": "^2.21.5",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0",
     "eslint-config-prettier": "^8.5.0",

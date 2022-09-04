@@ -57,7 +57,7 @@ const addPost = async (req, res, next) => {
   try {
     const { userId, categoryId, title, content } = req.body;
     await freeBoardRepos.createPost(userId, categoryId, title, content);
-    return res.status(200).json({ message: "jobPosting is created" });
+    return res.status(200).json({ message: "Posting is created" });
   } catch (err) {
     next(err);
   }

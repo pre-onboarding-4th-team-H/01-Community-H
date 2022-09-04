@@ -10,7 +10,7 @@ module.exports = class FreeBoard extends Sequelize.Model {
           allowNull: false,
         },
         UserId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
         },
         title: {
