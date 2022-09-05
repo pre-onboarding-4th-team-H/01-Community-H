@@ -42,15 +42,13 @@ const setPost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, categoryId, content, password } = req.body;
-    // const { id, categoryId, title, content } = req.body;
-    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
+
     const existingPost = await boardRepo.findPost(id, model);
 
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-    console.log(req.user.id);
-    console.log(existingPost.User);
+
     if (req.user.id !== existingPost.UserId) {
       throw new Error("글 작성자가 아닙니다.");
     }
