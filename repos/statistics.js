@@ -9,7 +9,7 @@ const start = moment().format("YYYY-MM-DDTHH:00:00");
 // 유저 테이블에서 성별로 통계 조회
 const genderStatistics = async () => {
   const users = await models.User.findAndCountAll({
-    attributes: ["sex", [sequelize.fn("count", sequelize.col("sex")), "user"]],
+    attributes: ["sex"],
     group: ["sex"],
   });
   return users;
@@ -18,7 +18,7 @@ const genderStatistics = async () => {
 // 유저 테이블에서 나이별 통계 조회
 const ageStatistics = async () => {
   const users = await models.User.findAndCountAll({
-    attributes: ["age", [sequelize.fn("count", sequelize.col("age")), "user"]],
+    attributes: ["age"],
     group: ["age"],
   });
   return users;
@@ -26,7 +26,7 @@ const ageStatistics = async () => {
 
 const genderPerPeriod = async (start, now) => {
   const userTimeSex = await User.findAndCountAll({
-    attributes: ["sex", [sequelize.fn("count", sequelize.col("sex")), "user"]],
+    attributes: ["sex"],
     group: ["sex"],
     where: {
       lastLog: {
@@ -37,13 +37,12 @@ const genderPerPeriod = async (start, now) => {
       },
     },
   });
-  console.log(userTimeSex, "sdfsdf");
   return userTimeSex;
 };
 
 const agePerPeriod = async (start, end) => {
   const userTimeAge = await User.findAndCountAll({
-    attributes: ["age", [sequelize.fn("count", sequelize.col("age")), "user"]],
+    attributes: ["age"],
     group: ["age"],
     where: {
       lastLog: {
