@@ -9,6 +9,6 @@ const {
 
 // user create에 대한 api
 router.post("/join", userJoinValidator(), userService.addUser);
-router.post("/login", userService.addUserToken);
+router.post("/login", passwordValidator(), userService.addUserToken);
 router.delete("/", loginRequired, passwordValidator(), userService.deleteUser);
 module.exports = router;
