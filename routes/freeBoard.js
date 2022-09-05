@@ -16,7 +16,12 @@ router.patch(
   passwordValidator(),
   freeBoardService.setPost
 );
-router.delete("/:id", loginRequired, freeBoardService.deletePost);
+router.delete(
+  "/:id",
+  loginRequired,
+  passwordValidator(),
+  freeBoardService.deletePost
+);
 router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 
 module.exports = router;

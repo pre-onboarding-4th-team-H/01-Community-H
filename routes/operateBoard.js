@@ -33,6 +33,7 @@ router.patch(
   loginRequired,
   adminRequired,
   boardValidator(),
+  passwordValidator(),
   operateBoardService.setOperateBoard
 );
 router.delete(
