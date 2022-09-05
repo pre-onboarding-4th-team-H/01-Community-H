@@ -1,11 +1,10 @@
 const { boardRepo } = require("../repos");
 const bcrypt = require("bcrypt");
 const model = require("../database/models/operateBoard");
-
 // 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
   try {
-    const userId = req.user.UserId;
+    const userId = req.user.id;
     const { title, content } = req.body;
     // const { title, content, UserId } = req.body;
     // const operateBoardInfo = {
@@ -46,9 +45,6 @@ const setOperateBoard = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, content, password } = req.body;
-
-    // 해당 게시글이 있는지 확인
-    console.log("service: ", id);
 
     let post = await boardRepo.findPost(id, model);
 
