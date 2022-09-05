@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 // const { swaggerUi, specs } = require("./swagger");
 const errorHandler = require("./middlewares/errorHandler");
 const routes = require("./routes");
+const errorCodes = require("./codes/errorCodes");
 
 dotenv.config();
 
@@ -30,6 +31,9 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("dev"));
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(routes);
+app.use((req, res) => {
+  res.status(404).json({ message: errorCodes.pageNotFound });
+});
 app.use(errorHandler);
 
 module.exports = app;
