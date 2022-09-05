@@ -14,8 +14,8 @@ const createPost = async (title, content, userId, model) => {
 
 // 자유게시판 게시글 생성
 const createFreeBoardPost = async (
-  title,
   categoryId,
+  title,
   content,
   userId,
   model
