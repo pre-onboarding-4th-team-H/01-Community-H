@@ -73,4 +73,88 @@ function userJoinValidator() {
   ];
 }
 
-module.exports = { userJoinValidator };
+function userSetvalidator() {
+  return [
+    body("name")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isLength({ max: 50 })
+      .withMessage(errorCodes.wrongFormat),
+    body("password")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isLength({ min: 8, max: 16 })
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[A-za-z]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[~!@#$%^&*()_+|<>?:{}]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[0-9]/)
+      .withMessage(errorCodes.wrongPwdFormat),
+    body("newPassword")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isLength({ min: 8, max: 16 })
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[A-za-z]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[~!@#$%^&*()_+|<>?:{}]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[0-9]/)
+      .withMessage(errorCodes.wrongPwdFormat),
+    body("newPasswordCheck")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isLength({ min: 8, max: 16 })
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[A-za-z]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[~!@#$%^&*()_+|<>?:{}]/)
+      .bail()
+      .withMessage(errorCodes.wrongPwdFormat)
+      .matches(/[0-9]/)
+      .withMessage(errorCodes.wrongPwdFormat),
+    body("age")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isInt()
+      .withMessage(errorCodes.onlyNumber),
+    body("sex")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .isBoolean()
+      .withMessage(errorCodes.wrongFormat),
+    body("phonenumber")
+      .notEmpty()
+      .bail()
+      .withMessage(errorCodes.required)
+      .trim()
+      .isMobilePhone()
+      .bail()
+      .withMessage(errorCodes.wrongFormat)
+      .isLength({ max: 25 })
+      .withMessage(errorCodes.wrongFormat),
+    index,
+  ];
+}
+
+module.exports = { userJoinValidator, userSetvalidator };

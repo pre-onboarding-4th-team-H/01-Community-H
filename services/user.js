@@ -1,5 +1,6 @@
 const { userRepository } = require("../repos");
 const userJoinDao = require("../dao/userJoinDao");
+const userChangeDao = require("../dao/userChangeDao");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const errorCodes = require("../codes/errorCodes");
@@ -67,4 +68,24 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-module.exports = { addUser, addUserToken, deleteUser };
+const setUser = async (req, res, next) => {
+  try {
+    const { password, newPassword, newPasswordCheck } = req.body;
+
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
+
+    if (newPassword !== newPasswordCheck) {
+      throw new Error("변경 비밀번호가 일치하지 않습니다.");
+    }
+    await userRepository.updateUser(await userChangeDao(req.user.id, req.body));
+
+    res.status(201).json();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { addUser, addUserToken, deleteUser, setUser };
