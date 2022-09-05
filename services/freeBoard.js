@@ -1,10 +1,18 @@
-const freeBoardRepos = require("../repos/freeBoard");
+const boardRepo = require("../repos/board");
+const model = require("../database/models/freeBoard");
 
 const addPost = async (req, res, next) => {
   try {
-    const { userId, categoryId, title, content } = req.body;
-    await freeBoardRepos.createPost(userId, categoryId, title, content);
-    return res.status(200).json({ message: "Posting is created" });
+    const userId = req.userId;
+    const { categoryId, title, content } = req.body;
+    const post = await boardRepo.createFreeBoardPost(
+      userId,
+      categoryId,
+      title,
+      content,
+      model
+    );
+    return res.status(200).json(post);
   } catch (err) {
     next(err);
   }
@@ -31,40 +39,70 @@ const getPost = async (req, res, next) => {
 
 const setPost = async (req, res, next) => {
   try {
-    const { id, title, content } = req.body;
-    // const { id, categoryId, title, content } = req.body;
-    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
-    const existingPost = await boardRepo.checkPost(id, model);
-    if (!existingPost) {
+    const id = req.params.id;
+    const { categoryId, title, content } = req.body;
+    let post = await boardRepo.findPost(id, model);
+    if (!post) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-    const updatedPost = await boardRepo.updatePost(id, title, content, model);
-    // const updatedPost = await freeBoardRepos.updatePost(
-    //   id,
-    //   categoryId,
-    //   title,
-    //   content
-    // );
+
+    // 현재 회원 비밀번호와 일치하는지 확인
+    const userPassword = req.user.password;
+
+    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
+    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
+    if (userPassword !== password) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
+
+    const updatedPost = await boardRepo.updateFreeBoardPostPost(
+      id,
+      categoryId,
+      title,
+      content,
+      model
+    );
+
     if (updatedPost[0] === 0) {
       throw new Error("내용이 변경되지 않았습니다.");
     }
-    // if (updatedPost[0] === 1) {
-    //   throw new Error("내용이 변경되지 않았습니다.");
-    // }
-    return res.status(200).json({ message: "Posting is updated" });
+
+    // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
+    post = await boardRepo.findPost(id, model);
+    return res.status(200).json(post);
   } catch (err) {
     next(err);
   }
 };
 
+// 게시글 삭제
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedPost = await freeBoardRepos.destroyPost(id);
-    if (!deletedPost[0]) {
-      throw new Error("이미 삭제된 공고입니다.");
+    const { password } = req.body;
+
+    // 해당 게시글이 있는지 확인
+    const isPost = await boardRepo.findPost(id, model);
+    if (!isPost) {
+      throw new Error("게시글이 존재하지 않습니다.");
     }
-    return res.status(200).json({ message: "Posting is deleted" });
+
+    // 현재 회원 비밀번호와 일치하는지 확인
+    const userPassword = req.user.password;
+
+    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
+    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
+    if (userPassword !== password) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
+
+    const result = await boardRepo.destroyPost(id, model);
+
+    if (result[0] === 0) {
+      throw new Error("게시글이 삭제되지 않았습니다.");
+    }
+
+    res.status(201).json({ message: `${id} 게시글이 삭제되었습니다.` });
   } catch (err) {
     next(err);
   }

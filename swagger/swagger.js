@@ -9,8 +9,7 @@ const options = {
     info: {
       version: "1.0.0",
       title: "Community-H swagger",
-      description:
-        "Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
+      description: "Waynehills Community service API Docs",
     },
     servers: [
       {
