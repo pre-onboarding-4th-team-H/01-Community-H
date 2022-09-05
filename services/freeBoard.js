@@ -1,9 +1,10 @@
 const boardRepo = require("../repos/board");
 const model = require("../database/models/freeBoard");
+const bcrypt = require("bcrypt");
 
 const addPost = async (req, res, next) => {
   try {
-    const userId = req.userId;
+    const userId = req.user.id;
     const { categoryId, title, content } = req.body;
     const post = await boardRepo.createFreeBoardPost(
       userId,
@@ -39,22 +40,26 @@ const getPost = async (req, res, next) => {
 
 const setPost = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const { categoryId, title, content } = req.body;
-    let post = await boardRepo.findPost(id, model);
-    if (!post) {
+    const { id } = req.params;
+    const { title, categoryId, content, password } = req.body;
+    // const { id, categoryId, title, content } = req.body;
+    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
+    const existingPost = await boardRepo.findPost(id, model);
+
+    if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-
-    // 현재 회원 비밀번호와 일치하는지 확인
-    const userPassword = req.user.password;
-
-    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
-    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
-    if (userPassword !== password) {
-      throw new Error("비밀번호가 일치하지 않습니다.");
+    console.log(req.user.id);
+    console.log(existingPost.User);
+    if (req.user.id !== existingPost.UserId) {
+      throw new Error("글 작성자가 아닙니다.");
     }
 
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
     const updatedPost = await boardRepo.updateFreeBoardPostPost(
       id,
       categoryId,
@@ -62,7 +67,6 @@ const setPost = async (req, res, next) => {
       content,
       model
     );
-
     if (updatedPost[0] === 0) {
       throw new Error("내용이 변경되지 않았습니다.");
     }
@@ -80,29 +84,25 @@ const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { password } = req.body;
+    const existingPost = await boardRepo.findPost(id, model);
 
-    // 해당 게시글이 있는지 확인
-    const isPost = await boardRepo.findPost(id, model);
-    if (!isPost) {
-      throw new Error("게시글이 존재하지 않습니다.");
+    if (!existingPost) {
+      throw new Error("이미 삭제된 공고입니다.");
     }
 
-    // 현재 회원 비밀번호와 일치하는지 확인
-    const userPassword = req.user.password;
+    if (req.user.id !== existingPost.UserId) {
+      throw new Error("글 작성자가 아닙니다.");
+    }
 
-    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
-    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
-    if (userPassword !== password) {
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
-    const result = await boardRepo.destroyPost(id, model);
+    await boardRepo.destroyPost(id, model);
 
-    if (result[0] === 0) {
-      throw new Error("게시글이 삭제되지 않았습니다.");
-    }
-
-    res.status(201).json({ message: `${id} 게시글이 삭제되었습니다.` });
+    return res.status(200).json({ message: "Posting is deleted" });
   } catch (err) {
     next(err);
   }

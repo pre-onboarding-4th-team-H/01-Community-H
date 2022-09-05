@@ -1,10 +1,11 @@
 const { boardRepo } = require("../repos");
 const model = require("../database/models/noticeBoard");
+const bcrypt = require("bcrypt");
 
 // 게시글 생성
 const addPost = async (req, res, next) => {
   try {
-    const userId = req.userId;
+    const userId = req.user.id;
     const { title, content } = req.body;
 
     // 게시글 생성
@@ -26,7 +27,7 @@ const getPosts = async (req, res, next) => {
       throw new Error("조회할 게시글이 없습니다.");
     }
 
-    res.status(201).json(posts);
+    res.status(200).json(posts);
   } catch (err) {
     next(err);
   }
@@ -44,7 +45,7 @@ const getPost = async (req, res, next) => {
       throw new Error("조회할 게시글이 없습니다.");
     }
 
-    res.status(201).json(post);
+    res.status(200).json(post);
   } catch (err) {
     next(err);
   }
@@ -62,12 +63,9 @@ const setPost = async (req, res, next) => {
       throw new Error("게시글이 존재하지 않습니다.");
     }
 
-    // 현재 회원 비밀번호와 일치하는지 확인
-    const userPassword = req.user.password;
-
-    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
-    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
-    if (userPassword !== password) {
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
@@ -99,12 +97,9 @@ const deletePost = async (req, res, next) => {
       throw new Error("게시글이 존재하지 않습니다.");
     }
 
-    // 현재 회원 비밀번호와 일치하는지 확인
-    const userPassword = req.user.password;
-
-    // 유저 비밀번호가 해쉬화되지 않았기 때문에 임시로 조건문 사용
-    // const isPasswordCorrect = await bcryt.compare(password, userPassword);
-    if (userPassword !== password) {
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
@@ -114,7 +109,7 @@ const deletePost = async (req, res, next) => {
       throw new Error("게시글이 삭제되지 않았습니다.");
     }
 
-    res.status(201).json({ message: `${id} 게시글이 삭제되었습니다.` });
+    res.status(200).json({ message: `${id} 게시글이 삭제되었습니다.` });
   } catch (err) {
     next(err);
   }

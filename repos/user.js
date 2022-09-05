@@ -17,6 +17,14 @@ const createUser = async (data) => {
   }
 };
 
+const findUserWithId = async (id) => {
+  try {
+    return await User.findOne({ where: { id } });
+  } catch (err) {
+    throw new Error("다시 시도해 주세요");
+  }
+};
+
 const findUser = async (email) => {
   try {
     const user = await User.findOne({ where: { email } });
@@ -26,4 +34,4 @@ const findUser = async (email) => {
   }
 };
 
-module.exports = { createUser, findUser };
+module.exports = { createUser, findUser, findUserWithId };
