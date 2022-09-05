@@ -31,7 +31,6 @@ router.delete(
   "/:id",
   loginRequired,
   adminRequired,
-  boardValidator(),
   passwordValidator(),
   noticeService.deletePost
 );

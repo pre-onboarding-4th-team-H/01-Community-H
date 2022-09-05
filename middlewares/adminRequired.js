@@ -1,18 +1,12 @@
-const jwt = require("jsonwebtoken");
-
 // 로그인 및 관리자 등급 확인 미들웨어
 const adminRequired = async (req, res, next) => {
   try {
-    // 로그인했다면 req.headers["authorization"]에 담긴 토큰을 가져옴
-    const token = req.headers["authorization"]?.split(" ")[1];
-
-    // 해당 token 이 정상적인 token인지 확인
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const jwtDecoded = jwt.verify(token, secretKey);
-    const tier = jwtDecoded.tier;
+    if (!req.user) {
+      throw new Error("로그인이 필요한 페이지입니다.");
+    }
 
     // tier 확인
-    if (tier !== 0) {
+    if (req.user.tier !== 0) {
       throw new Error("관리자만 접근 가능한 페이지입니다.");
     }
     next();

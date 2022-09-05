@@ -37,21 +37,10 @@ const findPost = async (id, model) => {
         required: true,
       },
     ],
-    attributes: ["title", "content"],
+    attributes: ["id", "title", "content", "UserId"],
     where: { id },
   });
   return post;
-};
-
-// 게시글 확인
-const checkPost = async (id, model) => {
-  const existingPost = await model.findOne({
-    attributes: ["id"],
-    where: {
-      id,
-    },
-  });
-  return existingPost;
 };
 
 // 게시글 수정
@@ -70,7 +59,6 @@ module.exports = {
   createPost,
   findPosts,
   findPost,
-  checkPost,
   updatePost,
   destroyPost,
 };
