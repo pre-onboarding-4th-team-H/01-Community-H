@@ -1,6 +1,23 @@
-const { boardRepo } = require("../repos");
+const boardRepo = require("../repos/board");
 const model = require("../database/models/freeBoard");
 const bcrypt = require("bcrypt");
+
+const addPost = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { categoryId, title, content } = req.body;
+    const post = await boardRepo.createFreeBoardPost(
+      userId,
+      categoryId,
+      title,
+      content,
+      model
+    );
+    return res.status(200).json(post);
+  } catch (err) {
+    next(err);
+  }
+};
 
 const getPosts = async (req, res, next) => {
   try {
@@ -23,9 +40,8 @@ const getPost = async (req, res, next) => {
 
 const setPost = async (req, res, next) => {
   try {
-    console.log("cponter");
     const { id } = req.params;
-    const { title, content, password } = req.body;
+    const { title, categoryId, content, password } = req.body;
     // const { id, categoryId, title, content } = req.body;
     // const existingPost = await freeBoardRepos.checkDeletedPost(id);
     const existingPost = await boardRepo.findPost(id, model);
@@ -44,26 +60,26 @@ const setPost = async (req, res, next) => {
     if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
-
-    const updatedPost = await boardRepo.updatePost(id, title, content, model);
-    // const updatedPost = await freeBoardRepos.updatePost(
-    //   id,
-    //   categoryId,
-    //   title,
-    //   content
-    // );
+    const updatedPost = await boardRepo.updateFreeBoardPostPost(
+      id,
+      categoryId,
+      title,
+      content,
+      model
+    );
     if (updatedPost[0] === 0) {
       throw new Error("내용이 변경되지 않았습니다.");
     }
-    // if (updatedPost[0] === 1) {
-    //   throw new Error("내용이 변경되지 않았습니다.");
-    // }
-    return res.status(200).json({ message: "Posting is updated" });
+
+    // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
+    post = await boardRepo.findPost(id, model);
+    return res.status(200).json(post);
   } catch (err) {
     next(err);
   }
 };
 
+// 게시글 삭제
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -87,20 +103,6 @@ const deletePost = async (req, res, next) => {
     await boardRepo.destroyPost(id, model);
 
     return res.status(200).json({ message: "Posting is deleted" });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const addPost = async (req, res, next) => {
-  try {
-    const userId = req.user.id;
-    const { title, content } = req.body;
-    // const { userId, categoryId, title, content } = req.body;
-    console.log(userId);
-    const post = await boardRepo.createPost(title, content, userId, model);
-    // await freeBoardRepos.createPost(userId, categoryId, title, content);
-    return res.status(201).json(post);
   } catch (err) {
     next(err);
   }
