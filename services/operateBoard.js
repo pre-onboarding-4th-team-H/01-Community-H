@@ -1,17 +1,12 @@
 const { boardRepo } = require("../repos");
 const bcrypt = require("bcrypt");
 const model = require("../database/models/operateBoard");
+
 // 운영게시판 생성
 const addOperateBoard = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const { title, content } = req.body;
-    // const { title, content, UserId } = req.body;
-    // const operateBoardInfo = {
-    //   title,
-    //   content,
-    //   userId,
-    // };
     const post = await boardRepo.createPost(title, content, userId, model);
     return res.status(200).json(post);
   } catch (err) {
@@ -98,7 +93,7 @@ const deleteOperateBoard = async (req, res, next) => {
       throw new Error("게시글이 삭제되지 않았습니다.");
     }
 
-    res.status(200).json({ message: `${id} 게시글이 삭제되었습니다.` });
+    res.status(200).json({ message: "게시글이 삭제되었습니다." });
   } catch (err) {
     next(err);
   }

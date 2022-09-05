@@ -41,8 +41,8 @@ const getPost = async (req, res, next) => {
 const setPost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { categoryId, title, content, password } = req.body;
-    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
+    const { title, categoryId, content, password } = req.body;
+
     const existingPost = await boardRepo.findPost(id, model);
 
     if (!existingPost) {
@@ -57,7 +57,6 @@ const setPost = async (req, res, next) => {
     if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
-
     const updatedPost = await boardRepo.updateFreeBoardPost(
       id,
       categoryId,
@@ -68,9 +67,10 @@ const setPost = async (req, res, next) => {
     if (updatedPost[0] === 0) {
       throw new Error("내용이 변경되지 않았습니다.");
     }
-    post = await boardRepo.findPost(id, model);
 
-    return res.status(201).json(post);
+    // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
+    const post = await boardRepo.findPost(id, model);
+    return res.status(200).json(post);
   } catch (err) {
     next(err);
   }

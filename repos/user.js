@@ -22,7 +22,7 @@ const findUserWithId = async (id) => {
   try {
     return await User.findOne({ where: { id } });
   } catch (err) {
-    throw new Error("다시 시도해 주세요");
+    throw new Error(errorCodes.pleaseRetry);
   }
 };
 
@@ -31,7 +31,7 @@ const findUser = async (email) => {
     const user = await User.findOne({ where: { email } });
     return user;
   } catch (err) {
-    throw new Error("다시 시도해주세요.");
+    throw new Error(errorCodes.pleaseRetry);
   }
 };
 
@@ -40,7 +40,7 @@ const destroyUser = async (id) => {
     await User.destroy({ where: { id } });
     return;
   } catch (err) {
-    throw new Error("다시 시도해주세요");
+    throw new Error(errorCodes.pleaseRetry);
   }
 };
 
@@ -48,7 +48,15 @@ const updateLastLog = async (id) => {
   try {
     await User.update({ lastLog: moment().format() }, { where: { id } });
   } catch (err) {
-    throw new Error("다시 시도해주세요");
+    throw new Error(errorCodes.pleaseRetry);
+  }
+};
+
+const updateUser = async (data) => {
+  try {
+    await User.update(data.data, { where: data.userId });
+  } catch (err) {
+    throw new Error(errorCodes.pleaseRetry);
   }
 };
 
@@ -58,4 +66,5 @@ module.exports = {
   findUserWithId,
   destroyUser,
   updateLastLog,
+  updateUser,
 };

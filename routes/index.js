@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express();
-
 const userRouter = require("./user");
 const freeRouter = require("./freeBoard");
 const noticeRouter = require("./noticeBoard");
+const categoryRouter = require("./category");
 const operateBoardRouter = require("./operateBoard");
 const statisticsRouter = require("./statistics");
 router.use("/free", freeRouter);
