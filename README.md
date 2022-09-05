@@ -5,8 +5,6 @@
 
 [역할분담 및 트러블 슈팅](#-역할분담-및-트러블-슈팅)
 
-[개발 타임라인](#-개발-타임라인)
-
 [API 문서](#-api-문서)
 
 [기술 스택](#-기술-스택)
@@ -35,7 +33,7 @@
 # ✅ 요구사항 분석
 
 ### ✔ 게시판
-- ~~자유게시판의 경우 다양성을 위해 카테고리를 추가했습니다.~~
+- 자유게시판의 경우 다양성을 위해 카테고리를 추가했습니다.
 - 회원 등급에 따른 게시판 기능 제한을 위해 관리자 등급 확인 미들웨어를 구현했습니다.
 - 모든 게시판은 로그인한 유저만 이용할 수 있도록 로그인 확인 미들웨어를 구현했습니다.
 - 게시판 글 수정, 삭제 시 글 작성자를 판별하도록 DB에 입력된 해당 게시글의 userId와 토큰의 userId의 일치 여부를 구현했습니다.
@@ -62,10 +60,6 @@
 - 성별 / 나이 / 접속 시간별로 통계 분석을 하도록 구현했습니다.
 - 접속 시간의 경우, 로그인 이후에도 유저가 계속 활동을 할 수 있기 때문에 loginRequired에 lastLog를 업데이트하는 쿼리를 넣어 마지막 접속 시간을 알 수 있게 구현했습니다.
 
-# 개발 타임라인
-
-08.31
-
 # API 문서
 localhost/8080/api-docs
 
@@ -81,8 +75,9 @@ localhost/8080/api-docs
 # 📜 테스트 케이스
 
 - unitTest는 mocha와 supertest로 진행했습니다.
+- 회원 / 게시판 CRUD 테스트 완료했습니다.
 
-실행결과 캡쳐
+![image](https://user-images.githubusercontent.com/80232260/188407050-c2668aa4-b8a5-4d27-80a0-03406c8946a3.png)
 
 # 🗂 폴더 구조
 
@@ -200,7 +195,6 @@ localhost/8080/api-docs
 
 |  | 담당 역할 | 이슈 / 해결과정 |
 | --- | --- | --- |
-| 김예찬 | - 모델링 / 자유게시판 CRUD, 통계 구현 <br> - swagger 설정, freeBoard swagger 작성 | 어떤 문제, 어떤 식으로 해결하려고 했고, 어떤 이슈가 있었으며, 어떤 절차로 해결 하였는지 |
+| 김예찬 | - 모델링 / 자유게시판 CRUD, 운영 게시판 CRUD 구현, 통계 구현 <br> - swagger 설정, freeBoard swagger 작성 | 어떤 문제, 어떤 식으로 해결하려고 했고, 어떤 이슈가 있었으며, 어떤 절차로 해결 하였는지 |
 | 이무열 | - 모델링 / USER CRUD, 통계모델링 및 구현, validator 구현<br> - testcase 작성, user swagger 작성 / 코드 리팩토링 <br> - 깃허브 repository 생성 및 설정 |  |
-| 조경서 | - 모델링 / 공지사항 CRUD, login 구현 <br> - 로그인 검증, 관리자 등급 검증, 에러 미들웨어 구현 <br> - ESLint, prettier 설정 / 코드 리팩토링 / noticeBoard swagger 작성 / README, 노션 회의록 작성 |  |
-| 이태권 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| - 모델링 / 운영 게시판 CRUD 구현 <br> - express 초기 설정, 깃허브 orgainzation 생성  |  |
+| 조경서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|- 모델링 / 공지사항 CRUD, login, category CRUD 구현 <br>- 로그인 검증, 관리자 등급 검증, 에러 미들웨어 구현 <br>- ESLint, prettier 설정 / 코드 리팩토링 / noticeBoard, operateBoard swagger 작성 <br>- README, 노션 회의록 작성 | postman으로 요청을 보내서 CRUD 기능 구현을 확인하기 위해서 회원가입을 하였는데 DB에 데이터가 들어가지 않았다. 기존 id에 uuid로 적용하고 DB를 재생성하지 않아서 발생한 문제였다. 무열님의 도움으로 app.js에서 sequelize 속성 중 force를 true로 놔서 DB 재생성을 해서 해결했다. |
