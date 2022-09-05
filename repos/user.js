@@ -34,4 +34,27 @@ const findUser = async (email) => {
   }
 };
 
-module.exports = { createUser, findUser, findUserWithId };
+const destroyUser = async (id) => {
+  try {
+    await User.destroy({ where: { id } });
+    return;
+  } catch (err) {
+    throw new Error("다시 시도해주세요");
+  }
+};
+
+const updateLastLog = async (id) => {
+  try {
+    await User.update({ lastLog: Date.now() }, { where: { id } });
+  } catch (err) {
+    throw new Error("다시 시도해주세요");
+  }
+};
+
+module.exports = {
+  createUser,
+  findUser,
+  findUserWithId,
+  destroyUser,
+  updateLastLog,
+};
