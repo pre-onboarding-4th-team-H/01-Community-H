@@ -16,6 +16,7 @@ const loginRequired = async (req, res, next) => {
 
     // 라우터에서 쓸 수 있도록 req.user에 user 저장
     req.user = await userRepository.findUserWithId(jwtDecoded.userId);
+    await userRepository.updateLastLog(req.user.id);
     next();
   } catch (err) {
     next(err);

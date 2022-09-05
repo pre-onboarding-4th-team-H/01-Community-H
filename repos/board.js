@@ -12,6 +12,24 @@ const createPost = async (title, content, userId, model) => {
   return post;
 };
 
+// 자유게시판 게시글 생성
+const createFreeBoardPost = async (
+  title,
+  categoryId,
+  content,
+  userId,
+  model
+) => {
+  const post = await model.create({
+    id: uuidv4(),
+    categoryId,
+    title,
+    content,
+    UserId: userId,
+  });
+  return post;
+};
+
 // 전체 게시글 조회
 const findPosts = async (model) => {
   const posts = await model.findAll({
@@ -49,6 +67,15 @@ const updatePost = async (id, title, content, model) => {
   return result;
 };
 
+// 자유게시판 수정
+const updateFreeBoardPost = async (id, categoryId, title, content, model) => {
+  const result = await model.update(
+    { title, content, categoryId },
+    { where: { id } }
+  );
+  return result;
+};
+
 // 게시글 삭제
 const destroyPost = async (id, model) => {
   const result = await model.destroy({ where: { id } });
@@ -61,4 +88,6 @@ module.exports = {
   findPost,
   updatePost,
   destroyPost,
+  updateFreeBoardPost,
+  createFreeBoardPost,
 };

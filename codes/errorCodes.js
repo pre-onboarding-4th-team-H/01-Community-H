@@ -6,4 +6,7 @@ module.exports = {
   wrongPwdFormat: "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.",
   onlyNumber: "숫자만 입력하세요.",
   existEmail: "이미 가입된 이메일입니다.",
+  notExistEmail: "해당 이메일은 가입 내역이 없습니다.",
+  pageNotFound: "페이지를 찾을 수 없습니다.",
+  notEqualPassword: "비밀번호가 일치하지 않습니다.",
 };
