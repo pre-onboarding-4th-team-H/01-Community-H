@@ -4,6 +4,9 @@ const loginRequired = require("../middlewares/loginRequired");
 const adminRequired = require("../middlewares/adminRequired");
 const { operateBoardService } = require("../services");
 const { boardValidator } = require("../middlewares/validator/boardValidator");
+const {
+  passwordValidator,
+} = require("../middlewares/validator/passwordValidator");
 
 router.post(
   "/",
@@ -36,7 +39,7 @@ router.delete(
   "/:id",
   loginRequired,
   adminRequired,
-  boardValidator(),
+  passwordValidator(),
   operateBoardService.deleteOperateBoard
 );
 
