@@ -1,5 +1,6 @@
 const { boardRepo } = require("../repos");
 const model = require("../database/models/freeBoard");
+const bcrypt = require("bcrypt");
 
 const getPosts = async (req, res, next) => {
   try {
@@ -22,17 +23,26 @@ const getPost = async (req, res, next) => {
 
 const setPost = async (req, res, next) => {
   try {
-    const { id, title, content } = req.body;
+    console.log("cponter");
+    const { id } = req.params;
+    const { title, content, password } = req.body;
     // const { id, categoryId, title, content } = req.body;
     // const existingPost = await freeBoardRepos.checkDeletedPost(id);
-    const existingPost = await boardRepo.checkPost(id, model);
+    const existingPost = await boardRepo.findPost(id, model);
 
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-
+    console.log(req.user.id);
+    console.log(existingPost.User);
     if (req.user.id !== existingPost.UserId) {
       throw new Error("글 작성자가 아닙니다.");
+    }
+
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
     const updatedPost = await boardRepo.updatePost(id, title, content, model);
@@ -57,8 +67,8 @@ const setPost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    const existingPost = await boardRepo.checkPost(id, model);
+    const { password } = req.body;
+    const existingPost = await boardRepo.findPost(id, model);
 
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
@@ -66,6 +76,12 @@ const deletePost = async (req, res, next) => {
 
     if (req.user.id !== existingPost.UserId) {
       throw new Error("글 작성자가 아닙니다.");
+    }
+
+    // 해당 공지 게시글의 글 작성자인지 확인하기 위해 비밀번호를 입력받는다.
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+    if (!isPasswordCorrect) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
     }
 
     await boardRepo.destroyPost(id, model);
@@ -82,9 +98,9 @@ const addPost = async (req, res, next) => {
     const { title, content } = req.body;
     // const { userId, categoryId, title, content } = req.body;
     console.log(userId);
-    await boardRepo.createPost(title, content, userId, model);
+    const post = await boardRepo.createPost(title, content, userId, model);
     // await freeBoardRepos.createPost(userId, categoryId, title, content);
-    return res.status(201).json({ message: "jobPosting is created" });
+    return res.status(201).json(post);
   } catch (err) {
     next(err);
   }
