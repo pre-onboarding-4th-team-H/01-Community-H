@@ -1,19 +1,19 @@
-const boardRepo = require("../repos/board");
+const { boardRepo } = require("../repos");
 const model = require("../database/models/freeBoard");
 const bcrypt = require("bcrypt");
 
 const addPost = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = "670024d5-9e3b-446a-a508-a6cca22c2aa6";
     const { categoryId, title, content } = req.body;
     const post = await boardRepo.createFreeBoardPost(
-      userId,
       categoryId,
       title,
       content,
+      userId,
       model
     );
-    return res.status(200).json(post);
+    return res.status(201).json(post);
   } catch (err) {
     next(err);
   }
@@ -48,7 +48,6 @@ const setPost = async (req, res, next) => {
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-
     if (req.user.id !== existingPost.UserId) {
       throw new Error("글 작성자가 아닙니다.");
     }
@@ -77,7 +76,6 @@ const setPost = async (req, res, next) => {
   }
 };
 
-// 게시글 삭제
 const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;

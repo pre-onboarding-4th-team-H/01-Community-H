@@ -22,7 +22,7 @@ router.delete(
   passwordValidator(),
   freeBoardService.deletePost
 );
-router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
+router.post("/", boardValidator(), freeBoardService.addPost);
 
 /**
  * @swagger
