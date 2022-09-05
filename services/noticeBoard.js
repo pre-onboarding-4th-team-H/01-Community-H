@@ -109,7 +109,7 @@ const deletePost = async (req, res, next) => {
       throw new Error("게시글이 삭제되지 않았습니다.");
     }
 
-    res.status(200).json({ message: `${id} 게시글이 삭제되었습니다.` });
+    res.status(200).json({ message: `게시글이 삭제되었습니다.` });
   } catch (err) {
     next(err);
   }
