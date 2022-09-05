@@ -7,7 +7,7 @@ const moment = require("moment");
 const getUsersByGender = async (req, res, next) => {
   try {
     const users = await statisticsRepo.genderStatistics();
-    users.forEach((user) => {
+    users.rows.forEach((user) => {
       user.sex = user.sex ? "male" : "female";
     });
 
@@ -23,9 +23,6 @@ const getUsersByGender = async (req, res, next) => {
 const getUsersByAge = async (req, res, next) => {
   try {
     const users = await statisticsRepo.ageStatistics();
-    users.forEach((user) => {
-      user.sex = user.sex ? "male" : "female";
-    });
     if (users.length === 0) {
       throw new Error("조회할 유저가 없습니다.");
     }
@@ -42,6 +39,10 @@ const genderPerPeriod = async (req, res, next) => {
     const start = timeUnitDao(unit);
 
     const userTimeSex = await statisticsRepo.genderPerPeriod(start, now);
+    userTimeSex.rows.forEach((user) => {
+      user.sex = user.sex ? "male" : "female";
+    });
+
     res.status(200).json(userTimeSex);
   } catch (err) {
     next(err);
