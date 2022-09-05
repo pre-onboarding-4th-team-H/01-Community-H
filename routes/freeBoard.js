@@ -27,24 +27,35 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 /**
  * @swagger
  * paths:
- *   /posts:
+ *   /free:
  *    get:
- *      summary:  "게시글 데이터 전체 조회"
- *      description: "게시글 데이터 전체 조회"
- *      tags: [Boards]
+ *      summary:  "자유게시판 게시글 데이터 전체 조회"
+ *      description: "자유게시판 게시글 데이터 전체 조회"
+ *      tags: [Free Board]
  *      responses:
  *        "200":
- *          description: "전체 게시글 정보"
+ *          description: "자유게시판 전체 게시글 정보"
  *          content:
  *            application/json:
  *              schema:
- *                  type : object
+ *                  type : array
  *                  example:
  *                          [
- *                            { "id": 1, "title": "제목1","User" : {"name" : "철수"} },
- *                            { "id": 2, "title": "제목2","User" : {"name" : "미애"} },
- *                            { "id": 3, "title": "제목3","User" : {"name" : "영희"} },
- *                          ]
+ *                              {
+ *                                  "id": "8b6ccaf9-4053-48ca-9378-7eaef58eb157",
+ *                                  "title": "tratorsync Functioe c NoticeBoard.save nistratorsync Function.create.",
+ *                                  "User": {
+ *                                        "name": "test"
+ *                                    }
+ *                                },
+ *                                {
+ *                                    "id": "be0d2c38-17af-4d16-a1c6-31067958a2ae",
+ *                                    "title": "tratorsytorsync Function.create.",
+ *                                    "User": {
+ *                                        "name": "test"
+ *                                    }
+ *                                },
+ *                            ]
  *        "400":
  *          description: Bad request
  *          content:
@@ -54,6 +65,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                example :
  *                  { error: {
  *                     message: error.message,
+ *                     field: error.name
  *                           } }
  *
  */
@@ -61,11 +73,11 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 /**
  * @swagger
  * paths:
- *   /post/{id}:
+ *   /free/{id}:
  *    get:
- *      summary:  "특정 id 게시글 데이터 조회"
- *      description: "특정 id 게시글 데이터 조회"
- *      tags: [Boards]
+ *      summary:  "자유게시판 특정 게시글 데이터 조회"
+ *      description: "자유게시판 특정 게시글 데이터 조회"
+ *      tags: [Free Board]
  *      parameters :
  *        - in : path
  *          name : id
@@ -75,15 +87,23 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *             type : uuid
  *      responses:
  *        "200":
- *          description: "특정 id 게시글 데이터"
+ *          description: "자유게시판 특정 게시글 데이터"
  *          content:
  *            application/json:
  *              schema:
- *                type: array
+ *                type: object
  *                items:
  *                  type : object
  *                  example:
- *                            { "id": 1, "title": "제목1","User" : {"name" : "철수"},"content" : "내용1" }
+ *                              {
+ *                                  "id": "8b6ccaf9-4053-48ca-9378-7eaef58eb157",
+ *                                  "title": "tratorsync Functioe c NoticeBoard.save nistratorsync Function.create.",
+ *                                  "content": "testat atat async NoticeBoard.save nistratorsync Function.creat",
+ *                                  "UserId": "5d5c7669-9ba8-4550-87b1-f397f5d3084c",
+ *                                  "User": {
+ *                                      "name": "test"
+ *                                  }
+ *                              }
  *        "400":
  *          description: Bad request
  *          content:
@@ -93,6 +113,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                example :
  *                  { error: {
  *                     message: error.message,
+ *                     field: error.name
  *                           } }
  *
  */
@@ -100,11 +121,11 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 /**
  * @swagger
  * paths:
- *   /post:
+ *   /free:
  *    patch:
- *      summary:  "특정 id 게시글 데이터 수정"
- *      description: "특정 id 게시글 데이터 수정"
- *      tags: [Boards]
+ *      summary:  "자유게시판 특정 게시글 데이터 수정"
+ *      description: "자유게시판 특정 게시글 데이터 수정"
+ *      tags: [Free Board]
  *      parameters :
  *         - in : body
  *           name : data
@@ -116,13 +137,24 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                {id : uuid, categoryId : uuid, title : 수정할 제목, content : 수정할 내용}
  *      responses:
  *        "200":
- *          description: "특정 id 게시글 데이터 수정 성공"
+ *          description: "자유게시판 특정 게시글 데이터 수정 성공"
  *          content:
  *            application/json:
  *              schema:
+ *                type: object
+ *                items:
  *                  type : object
  *                  example:
- *                            { message: "Posting is updated" }
+ *                            {
+ *                                "id": "8b6ccaf9-4053-48ca-9378-7eaef58eb157",
+ *                                "categoryId":"31dfde0b-19e4-453d-80c6-2044fa89d3a2",
+ *                                "title": "update",
+ *                                "content": "test",
+ *                                "UserId": "5d5c7669-9ba8-4550-87b1-f397f5d3084c",
+ *                                "User": {
+ *                                    "name": "test"
+ *                                }
+ *                            }
  *        "400":
  *          description: Bad request
  *          content:
@@ -132,6 +164,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                example :
  *                  { error: {
  *                     message: error.message,
+ *                     field: error.name
  *                           } }
  *
  */
@@ -139,11 +172,11 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 /**
  * @swagger
  * paths:
- *   /post:
+ *   /free:
  *    post:
- *      summary:  "게시글 데이터 생성"
- *      description: "게시글 데이터 생성"
- *      tags: [Boards]
+ *      summary:  "자유게시판 게시글 데이터 생성"
+ *      description: "자유게시판 게시글 데이터 생성"
+ *      tags: [Free Board]
  *      parameters :
  *         - in : body
  *           name : data
@@ -155,13 +188,24 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                {categoryId : uuid, title : 생성할 제목, content : 생성할 내용}
  *      responses:
  *        "200":
- *          description: "게시글 데이터 생성 성공"
+ *          description: "자유게시판 게시글 데이터 생성 성공"
  *          content:
  *            application/json:
  *              schema:
+ *                type: object
+ *                items:
  *                  type : object
  *                  example:
- *                            { message: "Posting is created" }
+ *                            {
+ *                                "id": "8b6ccaf9-4053-48ca-9378-7eaef58eb157",
+ *                                "categoryId":"31dfde0b-19e4-453d-80c6-2044fa89d3a2",
+ *                                "title": "update",
+ *                                "content": "test",
+ *                                "UserId": "5d5c7669-9ba8-4550-87b1-f397f5d3084c",
+ *                                "User": {
+ *                                    "name": "test"
+ *                                }
+ *                            }
  *        "400":
  *          description: Bad request
  *          content:
@@ -171,6 +215,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                example :
  *                  { error: {
  *                     message: error.message,
+ *                     field: error.name
  *                           } }
  *
  */
@@ -178,11 +223,11 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
 /**
  * @swagger
  * paths:
- *   /post/{id}:
+ *   /free/{id}:
  *    delete:
- *      summary:  "특정 id 게시글 데이터 삭제"
- *      description: "특정 id 게시글 데이터 삭제"
- *      tags: [Boards]
+ *      summary:  "자유게시판 특정 게시글 데이터 삭제"
+ *      description: "자유게시판 특정 게시글 데이터 삭제"
+ *      tags: [Free Board]
  *      parameters :
  *        - in : path
  *          name : id
@@ -192,7 +237,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *             type : uuid
  *      responses:
  *        "200":
- *          description: "특정 id 게시글 데이터 삭제"
+ *          description: "자유게시판 특정 게시글 데이터 삭제"
  *          content:
  *            application/json:
  *              schema:
@@ -208,6 +253,7 @@ router.post("/", loginRequired, boardValidator(), freeBoardService.addPost);
  *                example :
  *                  { error: {
  *                     message: error.message,
+ *                     field: error.name
  *                           } }
  *
  */

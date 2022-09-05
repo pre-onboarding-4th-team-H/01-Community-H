@@ -42,15 +42,13 @@ const setPost = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { title, categoryId, content, password } = req.body;
-    // const { id, categoryId, title, content } = req.body;
-    // const existingPost = await freeBoardRepos.checkDeletedPost(id);
+
     const existingPost = await boardRepo.findPost(id, model);
 
     if (!existingPost) {
       throw new Error("이미 삭제된 공고입니다.");
     }
-    console.log(req.user.id);
-    console.log(existingPost.User);
+
     if (req.user.id !== existingPost.UserId) {
       throw new Error("글 작성자가 아닙니다.");
     }
@@ -60,7 +58,7 @@ const setPost = async (req, res, next) => {
     if (!isPasswordCorrect) {
       throw new Error("비밀번호가 일치하지 않습니다.");
     }
-    const updatedPost = await boardRepo.updateFreeBoardPostPost(
+    const updatedPost = await boardRepo.updateFreeBoardPost(
       id,
       categoryId,
       title,
@@ -72,7 +70,7 @@ const setPost = async (req, res, next) => {
     }
 
     // 프론트가 있다는 가정 하에 수정된 post 객체를 보냄
-    post = await boardRepo.findPost(id, model);
+    const post = await boardRepo.findPost(id, model);
     return res.status(200).json(post);
   } catch (err) {
     next(err);

@@ -101,7 +101,9 @@ router.delete(
  *          content:
  *            application/json:
  *              schema:
- *                  type : array
+ *                type: array
+ *                items:
+ *                  type : object
  *                  example:
  *                          [
  *                              {
@@ -223,6 +225,8 @@ router.delete(
  *          content:
  *            application/json:
  *              schema:
+ *                type: object
+ *                items:
  *                  type : object
  *                  example:
  *                            {
