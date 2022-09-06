@@ -32,7 +32,7 @@
 
 # ✅ 요구사항 분석
 
-### ✔ 게시판
+### ✔ 게시판 API 개발
 - 자유게시판의 경우 다양성을 위해 카테고리를 추가했습니다.
 - 회원 등급에 따른 게시판 기능 제한을 위해 관리자 등급 확인 미들웨어를 구현했습니다.
 - 모든 게시판은 로그인한 유저만 이용할 수 있도록 로그인 확인 미들웨어를 구현했습니다.
@@ -50,7 +50,7 @@
 
 ### ✔ 회원 API 개발
 
-- 회원가입, 로그인 기능 구현을 위해 회원테이블에 이메일, 비밀번호 필드를 추가했습니다.
+- 회원가입, JWT를 이용한 로그인 기능을 구현했습니다.
 - 마지막 접속 시간을 측정하기 위해 회원테이블에 lastLog 필드를 추가했습니다.
 - 회원가입 시 입력 데이터 검증을 위해 validator를 구현했습니다.
 - 회원 수정, 탈퇴의 경우, 더블체크로 비밀번호를 입력하도록 구현했습니다.
@@ -61,7 +61,7 @@
 - 성별 / 나이 / 접속 시간별로 통계 분석을 하도록 구현했습니다.
 - 접속 시간의 경우, 로그인 이후에도 유저가 계속 활동을 할 수 있기 때문에 loginRequired에 lastLog를 업데이트하는 쿼리를 넣어 마지막 접속 시간을 알 수 있게 구현했습니다.
 
-# API 문서
+# 📑 API 문서
 1) npm start로 서버 구동 -> localhost/{port}/api-docs
 
 2) [Swagger PDF 파일](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/8eccf573-c06c-4fe8-8a77-4b0d733458fc/screencapture-localhost-8080-api-docs-2022-09-05-18_05_52.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220905%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220905T090835Z&X-Amz-Expires=86400&X-Amz-Signature=0c5831ded302797166c59ff652d9a15388e9717c037d4a96f45d5feb63743941&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22screencapture-localhost-8080-api-docs-2022-09-05-18_05_52.pdf%22&x-id=GetObject)
@@ -110,7 +110,7 @@
 
 [깃 커밋 컨벤션 참고 사이트](https://overcome-the-limits.tistory.com/entry/협업-협업을-위한-기본적인-git-커밋컨벤션-설정하기)
 
-# ERD
+# 🗝 ERD
 ![Untitled](https://user-images.githubusercontent.com/80232260/188364873-66642971-d272-4fac-bdfd-a6fa8d2815b7.png)
 
 # 🗂 폴더 구조
@@ -169,7 +169,7 @@
 }
 ```
 
-# 기술 스택
+# ⚡ 기술 스택
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/express-FCC624?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Sequelize-007396?style=for-the-badge&logo=Sequelize&logoColor=white">
 <img src="https://img.shields.io/badge/Swagger-61DAFB?style=for-the-badge&logo=Swagger&logoColor=white"> <img src="https://img.shields.io/badge/Mocha-F8DC75?style=for-the-badge&logo=Mocha&logoColor=white">
