@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const addPost = async (req, res, next) => {
   try {
-    const userId = "670024d5-9e3b-446a-a508-a6cca22c2aa6";
+    const userId = req.user.id;
     const { categoryId, title, content } = req.body;
     const post = await boardRepo.createFreeBoardPost(
       categoryId,
